@@ -11,8 +11,9 @@ add_library(mw-core SHARED
     
     Variable.cpp
     Scalar.cpp
-    #VariableFactory.cpp
+    VariableArray.cpp
     Node.cpp
+    Algorithm.cpp
 )
 
 
@@ -40,4 +41,5 @@ add_dependencies(test-core mw-core)
 
 add_subdirectory(graphviz)
 add_subdirectory(swig)
-
+add_subdirectory(examples)
+add_subdirectory(vamp)

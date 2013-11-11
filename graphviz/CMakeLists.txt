@@ -4,7 +4,7 @@ if (ENABLE_GRAPHVIZ)
     find_package(GRAPHVIZ)
     if (NOT GRAPHVIZ_FOUND)
         message("GRAPHVIZ not found - plugin disabled")
-        set(ENABLE_SWIG OFF)
+        set(ENABLE_GRAPHVIZ OFF)
     endif (NOT GRAPHVIZ_FOUND)
 endif (ENABLE_GRAPHVIZ)
 

@@ -24,7 +24,7 @@ bool Variable::hasParent() const
 void Variable::addChild(Variable* variable)
 {
     variable->_parent=this;
-    std::cout<<"variable: "<<_name<<" -> addChild:"<<variable->getName()<<std::endl;
+    //std::cout<<"variable: "<<_name<<" -> addChild:"<<variable->getName()<<std::endl;
     _children.push_back(variable);
 }
 
@@ -32,7 +32,7 @@ void Variable::updateChildren()
 {
     for (unsigned int ichild = 0; ichild < _children.size(); ++ichild)
     {
-        std::cout<<"variable: "<<_name<<" -> update:"<<_children[ichild]->getName()<<std::endl;
+        //std::cout<<"variable: "<<_name<<" -> update:"<<_children[ichild]->getName()<<std::endl;
         for (unsigned int index = 0; index<this->size(); ++index)
         {
             _children[ichild]->value(index)=this->value(index);

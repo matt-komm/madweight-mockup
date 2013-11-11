@@ -135,16 +135,24 @@ int Node::findOutputVariable(std::string name) const
 MultiplyNode::MultiplyNode(Variable* var1, Variable* var2):
     Node()
 {
-    _var1=var1->clone(this);
-    _input.push_back(_var1);
-    connectInput(_var1,var1);
+    Variable* var1clone = var1->clone(this);
+    _input.push_back(var1clone);
+    connectInput(var1clone,var1);
 
-    _var2=var2->clone(this);
-    _input.push_back(_var2);
-    connectInput(_var2,var2);
+    _variable = var2->clone(this);
+    _input.push_back(_variable);
+    connectInput(_variable,var2);
 
-    _result = var1->multiply("result",this,_var2);
-    _output.push_back(_result);
+    _multipliable = dynamic_cast<Multipliable*>(var1clone);
+    if (_multipliable)
+    {
+        _result = _multipliable->multiply("result",this,_variable);
+        _output.push_back(_result);
+    }
+    else
+    {
+        throw std::string("variables cannot be multiplied: "+var1->getName()+"; "+var2->getName());
+    }
 }
 
 MultiplyNode::~MultiplyNode()
@@ -153,23 +161,31 @@ MultiplyNode::~MultiplyNode()
 
 void MultiplyNode::execute()
 {
-    _var1->multiply(_result,_var2);
+    _multipliable->multiply(_result,_variable);
 }
 
 
 AddNode::AddNode(Variable* var1, Variable* var2):
     Node()
 {
-    _var1=var1->clone(this);
-    _input.push_back(_var1);
-    connectInput(_var1,var1);
+    Variable* var1clone = var1->clone(this);
+    _input.push_back(var1clone);
+    connectInput(var1clone,var1);
 
-    _var2=var2->clone(this);
-    _input.push_back(_var2);
-    connectInput(_var2,var2);
+    _variable = var2->clone(this);
+    _input.push_back(_variable);
+    connectInput(_variable,var2);
 
-    _result = var1->add("result",this,_var2);
-    _output.push_back(_result);
+    _addable = dynamic_cast<Addable*>(var1clone);
+    if (_addable)
+    {
+        _result = _addable->add("result",this,_variable);
+        _output.push_back(_result);
+    }
+    else
+    {
+        throw std::string("variables cannot be summed: "+var1->getName()+"; "+var2->getName());
+    }
 }
 
 AddNode::~AddNode()
@@ -178,5 +194,6 @@ AddNode::~AddNode()
 
 void AddNode::execute()
 {
-    _var1->add(_result,_var2);
+    _addable->add(_result,_variable);
 }
+

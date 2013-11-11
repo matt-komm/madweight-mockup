@@ -1,0 +1,25 @@
+OPTION(ENABLE_VAMP "Build with VAMP interface" ON)
+if (ENABLE_VAMP)
+    SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}")
+    find_package(VAMP)
+    if (NOT VAMP_FOUND)
+        message("VAMP not found - plugin disabled")
+        set(ENABLE_VAMP OFF)
+    endif (NOT VAMP_FOUND)
+endif (ENABLE_VAMP)
+
+if (ENABLE_VAMP)
+ENABLE_LANGUAGE(Fortran)
+SET (CMAKE_Fortran_COMPILER  gfortran)
+
+include_directories(${VAMP_INCLUDE_DIRS})
+add_library(mw-vamp SHARED interface.f90 VAMPIntegrator.cpp)
+link_directories(${VAMP_LIBRARIES})
+target_link_libraries(mw-vamp mw-core )
+add_dependencies(mw-vamp mw-core)
+
+add_executable(test-vamp test.cpp)
+target_link_libraries(test-vamp mw-vamp mw-core vamp)
+add_dependencies(test-vamp mw-vamp)
+
+endif(ENABLE_VAMP)

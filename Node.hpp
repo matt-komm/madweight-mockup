@@ -54,25 +54,27 @@ class MultiplyNode:
     public Node
 {
     protected:
-        Variable* _var1;
-        Variable* _var2;
+        Multipliable* _multipliable;
+        Variable* _variable;
+
         Variable* _result;
     public:
-        MultiplyNode(Variable* _var1, Variable* _var2);
+        MultiplyNode(Variable* var1, Variable* var2);
         virtual ~MultiplyNode();
 
         virtual void execute();
 };
 
+
 class AddNode:
     public Node
 {
     protected:
-        Variable* _var1;
-        Variable* _var2;
+        Addable* _addable;
+        Variable* _variable;
         Variable* _result;
     public:
-        AddNode(Variable* _var1, Variable* _var2);
+        AddNode(Variable* var1, Variable* var2);
         virtual ~AddNode();
         virtual void execute();
 

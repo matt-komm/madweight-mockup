@@ -6,12 +6,14 @@
 #include "Variable.hpp"
 
 class Scalar:
-    public Variable
+    public Variable,
+    public Addable,
+    public Multipliable
 {
     protected:
         double* _value;
-    public:
 
+    public:
         Scalar(std::string name, Node* owner);
         virtual ~Scalar();
 

@@ -8,6 +8,8 @@ class Node;
 
 
 
+
+
 class Variable
 {
     protected:
@@ -36,11 +38,9 @@ class Variable
         virtual bool hasParent() const;
         virtual TYPE getType()=0;
 
-        virtual Variable* multiply(std::string name, Node* owner, Variable* var) = 0;
-        virtual void multiply(Variable* target, Variable* input) = 0;
 
-        virtual Variable* add(std::string name, Node* owner, Variable* var) = 0;
-        virtual void add(Variable* target, Variable* input) = 0;
+
+
 
         const std::string getName() const
         {
@@ -57,5 +57,21 @@ class Variable
 
 std::ostream& operator<<(std::ostream& os, const Variable* variable);
 //bool operator==(const Variable* var1, const Variable* var2);
+
+
+class Addable
+{
+    public:
+        virtual Variable* add(std::string name, Node* owner, Variable* var) = 0;
+        virtual void add(Variable* target, Variable* input) = 0;
+};
+
+class Multipliable
+{
+    public:
+        virtual Variable* multiply(std::string name, Node* owner, Variable* var) = 0;
+        virtual void multiply(Variable* target, Variable* input) = 0;
+};
+
 #endif
 
