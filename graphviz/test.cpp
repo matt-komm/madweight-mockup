@@ -1,4 +1,4 @@
-#include "Graph.hpp"
+#include "GraphViz.hpp"
 #include "Node.hpp"
 #include "Scalar.hpp"
 
@@ -77,7 +77,7 @@ int main()
     m.execute();
     m.updateOutput();
 
-    Graph* g = Graph::createFromNode(&computing);
+    GraphViz* g = GraphViz::createFromNode(&computing);
     g->render("graph");
     return 0;
 }

@@ -1,9 +1,9 @@
-#include "Graph.hpp"
+#include "GraphViz.hpp"
 
 //#define WITH_CGRAPH
 #include <iostream>
 
-Graph::Graph()
+GraphViz::GraphViz()
 {
     /*
     Agraph_t* g =  agopen("G", Agdirected, NULL);
@@ -76,14 +76,14 @@ Graph::Graph()
     */
 }
 
-Graph::~Graph()
+GraphViz::~GraphViz()
 {
     gvFreeLayout(gvc, g);
     agclose (g);
     gvFreeContext(gvc);
 }
 
-void Graph::addNode(Node* node)
+void GraphViz::addNode(Node* node)
 {
 
     std::string inputLabels = "{";
@@ -136,7 +136,14 @@ void Graph::addNode(Node* node)
     }
 }
 
-void Graph::render(std::string filename)
+GraphViz* GraphViz::createFromNode(Node* node)
+{
+    GraphViz* graph = new GraphViz();
+    graph->addNode(node);
+    return graph;
+}
+
+void GraphViz::render(std::string filename)
 {
     gvLayout (gvc, g, "dot");
     //point pos = agget(nodes[0],"point");
@@ -147,9 +154,3 @@ void Graph::render(std::string filename)
 
 }
 
-Graph* Graph::createFromNode(Node* node)
-{
-    Graph* graph = new Graph();
-    graph->addNode(node);
-    return graph;
-}

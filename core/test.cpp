@@ -69,7 +69,6 @@ int main()
     computing.connectInputAll(&input2);
     MultiplyNode m(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
     AddNode a(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
-    //MultiplyNode m(new Scalar("test1",0),new Scalar("test2",0));
 
     input1.execute();
     input1.updateOutput();
