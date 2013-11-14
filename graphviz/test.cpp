@@ -65,8 +65,7 @@ int main()
     TestComputingNode computing = TestComputingNode();
     computing.connectInput(computing.getInput<Scalar>("input"),input1.getOutput<Scalar>("const"));
     computing.connectInputAll(&input2);
-    MultiplyNode m(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
-    //MultiplyNode m(new Scalar("test1",0),new Scalar("test2",0));
+
 
     input1.execute();
     input1.updateOutput();
@@ -74,8 +73,6 @@ int main()
     input2.updateOutput();
     computing.execute();
     computing.updateOutput();
-    m.execute();
-    m.updateOutput();
 
     GraphViz* g = GraphViz::createFromNode(&computing);
     g->render("graph");

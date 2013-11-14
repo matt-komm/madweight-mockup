@@ -132,9 +132,10 @@ int Node::findOutputVariable(std::string name) const
     return index;
 }
 
-MultiplyNode::MultiplyNode(Variable* var1, Variable* var2):
+MultiplyNode::MultiplyNode():
     Node()
 {
+    /*
     Variable* var1clone = var1->clone(this);
     _input.push_back(var1clone);
     connectInput(var1clone,var1);
@@ -153,6 +154,17 @@ MultiplyNode::MultiplyNode(Variable* var1, Variable* var2):
     {
         throw std::string("variables cannot be multiplied: "+var1->getName()+"; "+var2->getName());
     }
+    */
+}
+
+MultiplyNode* MultiplyNode::multiply(Variable* var1, Variable* var2)
+{
+
+}
+
+MultiplyNode* MultiplyNode::multiply(Node* node1, Node* node2)
+{
+
 }
 
 MultiplyNode::~MultiplyNode()
@@ -161,10 +173,10 @@ MultiplyNode::~MultiplyNode()
 
 void MultiplyNode::execute()
 {
-    _multipliable->multiply(_result,_variable);
+    //_multipliable->multiply(_result,_variable);
 }
 
-
+/*
 AddNode::AddNode(Variable* var1, Variable* var2):
     Node()
 {
@@ -197,3 +209,4 @@ void AddNode::execute()
     _addable->add(_result,_variable);
 }
 
+*/

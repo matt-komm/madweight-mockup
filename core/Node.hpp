@@ -56,16 +56,17 @@ class MultiplyNode:
     protected:
         Multipliable* _multipliable;
         Variable* _variable;
-
+        MultiplyNode();
         Variable* _result;
     public:
-        MultiplyNode(Variable* var1, Variable* var2);
+        static MultiplyNode* multiply(Variable* var1, Variable* var2);
+        static MultiplyNode* multiply(Node* node1, Node* node2);
         virtual ~MultiplyNode();
 
         virtual void execute();
 };
 
-
+/*
 class AddNode:
     public Node
 {
@@ -79,6 +80,6 @@ class AddNode:
         virtual void execute();
 
 };
-
+*/
 #endif
 
