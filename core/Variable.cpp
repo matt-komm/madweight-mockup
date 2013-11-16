@@ -24,6 +24,8 @@ bool Variable::hasParent() const
 void Variable::addChild(Variable* variable)
 {
     variable->_parent=this;
+    //set the size here - keep in mind: upon creation as const input variable -> size cannot be set
+    variable->setSize(this->size());
     //std::cout<<"variable: "<<_name<<" -> addChild:"<<variable->getName()<<std::endl;
     _children.push_back(variable);
 }

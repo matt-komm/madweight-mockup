@@ -1,19 +1,20 @@
-#ifndef __SCALAR_H__
-#define __SCALAR_H__
+#ifndef __NVECTOR_H__
+#define __NVECTOR_H__
 
-#include <iostream>
+#include "Scalar.hpp"
 
-#include "Variable.hpp"
+class Node;
 
-class Scalar:
+class NVector:
     public Variable
 {
     protected:
-        double* _value;
+        unsigned int _size;
+        double** _values;
 
     public:
-        Scalar(std::string name, Node* owner);
-        virtual ~Scalar();
+        NVector(std::string name, Node* owner);
+        virtual ~NVector();
 
         virtual Variable* clone(Node* owner);
 
@@ -26,12 +27,13 @@ class Scalar:
 
         virtual const Variable::TYPE getType() const
         {
-            return Variable::SCALAR;
+            return Variable::NVECTOR;
         }
 
 };
 
-void multiply(Scalar* target, const Scalar* var1, const Scalar* var2);
+void multiply(NVector* target, const NVector* var1, const Scalar* var2);
+void multiply(Scalar* target, const NVector* var1, const NVector* var2);
 
 
 #endif

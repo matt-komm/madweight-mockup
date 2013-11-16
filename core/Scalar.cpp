@@ -20,7 +20,12 @@ Variable* Scalar::clone(Node* owner)
     return scalar;
 }
 
-unsigned int Scalar::size()
+void Scalar::setSize(unsigned int size)
+{
+
+}
+
+const unsigned int Scalar::size() const
 {
     return 1;
 }

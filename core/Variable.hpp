@@ -20,14 +20,15 @@ class Variable
         Variable* _parent;
 
     public:
-        enum TYPE {SCALAR};
+        enum TYPE {SCALAR,NVECTOR};
 
         Variable(std::string name, Node* owner);
         virtual ~Variable();
 
         virtual Variable* clone(Node* owner) = 0;
 
-        virtual unsigned int size() = 0;
+        virtual void setSize(unsigned int size) = 0;
+        virtual const unsigned int size() const = 0;
 
         virtual const double& value(const unsigned int index=0) const = 0;
         virtual double& value(const unsigned int index=0) = 0;

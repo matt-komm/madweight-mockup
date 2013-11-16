@@ -61,6 +61,7 @@ class MultiplyNode:
 
         void _addMultiplicationPair(Variable* var1, Variable* var2)
         {
+            //std::cout<<"add multiply pair: "<<var1->getName()<<", "<<var2->getName()<<std::endl;
             Variable* _var1 = var1->clone(this);
             var1->addChild(_var1);
             Variable* _var2 = var2->clone(this);
@@ -76,15 +77,18 @@ class MultiplyNode:
     public:
         static MultiplyNode* multiply(Variable* var1, Variable* var2)
         {
+            //std::cout<<"create multiply node"<<var1<<", "<<var2<<std::endl;
             MultiplyNode* node = new MultiplyNode();
             node->_addMultiplicationPair(var1,var2);
             return node;
 
         }
+        /*
         static MultiplyNode* multiply(Node* node1, Node* node2)
         {
 
         }
+        */
         virtual ~MultiplyNode()
         {
             for (unsigned int i = 0; i < _opVariables.size(); ++i)

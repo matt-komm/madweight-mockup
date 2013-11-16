@@ -5,6 +5,7 @@ set(CMAKE_CXX_FLAGS "-Wextra -Wall -pedantic -std=c++0x")
 add_library(mw-core SHARED
     
     Variable.cpp
+    NVector.cpp
     Scalar.cpp
     VariableArray.cpp
     Node.cpp
