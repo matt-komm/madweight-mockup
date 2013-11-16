@@ -47,23 +47,59 @@ class Node
         {
             return _input[index];
         }
-
 };
+
 
 class MultiplyNode:
     public Node
 {
     protected:
-        Multipliable* _multipliable;
-        Variable* _variable;
-        MultiplyNode();
-        Variable* _result;
-    public:
-        static MultiplyNode* multiply(Variable* var1, Variable* var2);
-        static MultiplyNode* multiply(Node* node1, Node* node2);
-        virtual ~MultiplyNode();
+        MultiplyNode()
+        {
 
-        virtual void execute();
+        }
+
+        void _addMultiplicationPair(Variable* var1, Variable* var2)
+        {
+            Variable* _var1 = var1->clone(this);
+            var1->addChild(_var1);
+            Variable* _var2 = var2->clone(this);
+            var2->addChild(_var2);
+            OpVariableInterface* opVariable = var1->createMultiplication("product", this, var2);
+            _opVariables.push_back(opVariable);
+            _input.push_back(var1);
+            _input.push_back(var2);
+            _output.push_back(opVariable->getTarget());
+        }
+
+        std::vector<OpVariableInterface* > _opVariables;
+    public:
+        static MultiplyNode* multiply(Variable* var1, Variable* var2)
+        {
+            MultiplyNode* node = new MultiplyNode();
+            node->_addMultiplicationPair(var1,var2);
+            return node;
+
+        }
+        static MultiplyNode* multiply(Node* node1, Node* node2)
+        {
+
+        }
+        virtual ~MultiplyNode()
+        {
+            for (unsigned int i = 0; i < _opVariables.size(); ++i)
+            {
+                delete _opVariables[i];
+            }
+        }
+
+        virtual void execute()
+        {
+            for (unsigned int i = 0; i < _opVariables.size(); ++i)
+            {
+                _opVariables[i]->execute();
+            }
+        }
 };
 
 /*

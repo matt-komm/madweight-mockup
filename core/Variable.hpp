@@ -4,10 +4,11 @@
 #include <string>
 #include <vector>
 #include <iostream>
+
+//#include "Node.hpp"
 class Node;
 
-
-
+class OpVariableInterface;
 
 
 class Variable
@@ -36,17 +37,15 @@ class Variable
         virtual void updateChildren();
         virtual const Variable* getParent() const;
         virtual bool hasParent() const;
-        virtual TYPE getType()=0;
+        virtual const TYPE getType() const =0;
 
-
-
-
+        virtual OpVariableInterface* createMultiplication(std::string name, Node* owner, const Variable* variable) const = 0;
+        //virtual void multiply(Variable* target, const Variable* variable) const = 0;
 
         const std::string getName() const
         {
             return _name;
         }
-
 
         Node* getOwner() const
         {
@@ -55,22 +54,42 @@ class Variable
 
 };
 
-std::ostream& operator<<(std::ostream& os, const Variable* variable);
-//bool operator==(const Variable* var1, const Variable* var2);
-
-
-class Addable
+class OpVariableInterface
 {
     public:
-        virtual Variable* add(std::string name, Node* owner, Variable* var) = 0;
-        virtual void add(Variable* target, Variable* input) = 0;
+        virtual void execute() = 0;
+        virtual Variable* getTarget() = 0;
+
 };
 
-class Multipliable
+template<class TARGET, class VAR1, class VAR2>
+class OpVariable:
+    public OpVariableInterface
 {
+    protected:
+        void (*_opFunction)(TARGET* target, const VAR1* var1, const VAR2* var2);
+        TARGET* _target;
+        const VAR1* _var1;
+        const VAR2* _var2;
+
     public:
-        virtual Variable* multiply(std::string name, Node* owner, Variable* var) = 0;
-        virtual void multiply(Variable* target, Variable* input) = 0;
+        OpVariable(	void (*opFunction)(TARGET* target, const VAR1* var1, const VAR2* var2),
+                    TARGET* target, const VAR1* var1, const VAR2* var2):
+                        _opFunction(opFunction),
+                        _target(target),
+                        _var1(var1),
+                        _var2(var2)
+        {
+        }
+        virtual void execute()
+        {
+            _opFunction(_target,_var1,_var2);
+        }
+        virtual Variable* getTarget()
+        {
+            return _target;
+        }
+
 };
 
 #endif

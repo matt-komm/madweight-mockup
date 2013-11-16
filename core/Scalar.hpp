@@ -6,9 +6,7 @@
 #include "Variable.hpp"
 
 class Scalar:
-    public Variable,
-    public Addable,
-    public Multipliable
+    public Variable
 {
     protected:
         double* _value;
@@ -23,19 +21,17 @@ class Scalar:
         virtual const double& value(const unsigned int index=0) const;
         virtual double& value(const unsigned int index=0);
 
-        virtual Variable::TYPE getType()
+        virtual OpVariableInterface* createMultiplication(std::string name, Node* owner, const Variable* variable) const;
+
+        virtual const Variable::TYPE getType() const
         {
             return Variable::SCALAR;
         }
 
-        virtual Variable* multiply(std::string name, Node* owner, Variable* var);
-        virtual void multiply(Variable* target, Variable* input);
-
-        virtual Variable* add(std::string name, Node* owner, Variable* var);
-        virtual void add(Variable* target, Variable* input);
 };
 
-std::ostream& operator<<(std::ostream& os, const Scalar* scalar);
+void multiply(Scalar* target, const Scalar* var1, const Scalar* var2);
+
 
 #endif
 

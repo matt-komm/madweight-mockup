@@ -15,7 +15,7 @@ class TestInputNode1:
         }
         virtual void execute()
         {
-            output->value()=(rand()%10000)*0.0001;
+            output->value()=(rand()%10000)*0.01;
         }
 };
 
@@ -32,7 +32,7 @@ class TestInputNode2:
         }
         virtual void execute()
         {
-            output->value()=(rand()%10000)*0.0001;
+            output->value()=(rand()%10000)*0.01;
         }
 };
 
@@ -81,11 +81,11 @@ int main()
     //a.execute();
     //a.updateOutput();
 
-    std::cout<<"input1:"<<input1.getOutput<Scalar>("const")<<std::endl;
-    std::cout<<"input2:"<<input2.getOutput<Scalar>("auto")<<std::endl;
-    std::cout<<"computing:"<<computing.getOutput<Scalar>("computingresult")<<std::endl;
+    std::cout<<"input1:"<<input1.getOutput<Scalar>("const")->value()<<std::endl;
+    std::cout<<"input2:"<<input2.getOutput<Scalar>("auto")->value()<<std::endl;
+    std::cout<<"computing:"<<computing.getOutput<Scalar>("computingresult")->value()<<std::endl;
 
-    std::cout<<"multiply:"<<m->getOutput<Scalar>("result")<<std::endl;
+    std::cout<<"multiply:"<<m->getOutput<Scalar>("product")->value()<<std::endl;
     //std::cout<<"add:"<<a.getOutput<Scalar>("result")<<std::endl;
     return 0;
 }

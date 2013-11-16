@@ -40,14 +40,3 @@ void Variable::updateChildren()
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Variable* variable)
-{
-    os<<"class = Variable: { name="<<variable->getName()<<"}";
-    return os;
-}
-/*
-bool operator==(const Variable* var1, const Variable* var2)
-{
-    return (var1->getName()==var2->getName()) && (var1->getOwner()==var2->getOwner());
-}
-*/

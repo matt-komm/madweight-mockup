@@ -35,54 +35,20 @@ double& Scalar::value(const unsigned int index)
     return *_value;
 }
 
-Variable* Scalar::multiply(std::string name, Node* owner, Variable* var)
+OpVariableInterface* Scalar::createMultiplication(std::string name, Node* owner, const Variable* variable) const
 {
-    if (var->getType()==Variable::SCALAR)
+
+    if (this->getType()==Variable::SCALAR && variable->getType()==Variable::SCALAR)
     {
-        Scalar* result = new Scalar(name,owner);
-        multiply(result,var);
-        return result;
+        Scalar* target = new Scalar(name,owner);
+        OpVariable<Scalar,Scalar,Scalar>* opVariable = new OpVariable<Scalar,Scalar,Scalar>(multiply,target,this,dynamic_cast<const Scalar*>(variable));
+        return opVariable;
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 
-void Scalar::multiply(Variable* target, Variable* input)
+void multiply(Scalar* target, const Scalar* var1, const Scalar* var2)
 {
-    if (input->getType()==Variable::SCALAR && target->getType()==Variable::SCALAR)
-    {
-        target->value()=value()*input->value();
-    }
-}
-
-Variable* Scalar::add(std::string name, Node* owner, Variable* var)
-{
-    if (var->getType()==Variable::SCALAR)
-    {
-        Scalar* result = new Scalar(name,owner);
-        add(result,var);
-        return result;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-
-void Scalar::add(Variable* target, Variable* input)
-{
-    if (input->getType()==Variable::SCALAR && target->getType()==Variable::SCALAR)
-    {
-        target->value()=value()+input->value();
-    }
-}
-
-std::ostream& operator<<(std::ostream& os, const Scalar* scalar)
-{
-    os<<"class = Scalar: { value="<<scalar->value()<<"}";
-    return os;
+    target->value()=var1->value()*var2->value();
 }
