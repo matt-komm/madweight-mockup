@@ -1,6 +1,8 @@
 #include "Scalar.hpp"
 #include "NVector.hpp"
 #include "Node.hpp"
+#include "Graph.hpp"
+
 #include <stdlib.h>
 
 class TestInputNode1:
@@ -86,30 +88,29 @@ int main()
     computing.connectInput(computing.getInput<Scalar>("input"),input1.getOutput<Scalar>("const"));
     computing.connectInputAll(&input2);
     MultiplyNode* m1 = MultiplyNode::multiply(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
-    MultiplyNode* m2 = MultiplyNode::multiply(input1.getOutput<NVector>("vector"),input2.getOutput<NVector>("vector"));
+    MultiplyNode* m2 = MultiplyNode::multiply(&input1,&input2);
 
-    //AddNode a(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
-
-    input1.execute();
-    input1.updateOutput();
-    input2.execute();
-    input2.updateOutput();
-    computing.execute();
-    computing.updateOutput();
-    m1->execute();
-    m1->updateOutput();
-    m2->execute();
-    m2->updateOutput();
-    //a.execute();
-    //a.updateOutput();
+    Graph* graph = new Graph();
+    graph->addNode(&input1);
+    graph->addNode(&input2);
+    graph->addNode(m1);
+    graph->addNode(m2);
+    graph->sort();
+    graph->executeAll();
 
     std::cout<<"input1:"<<input1.getOutput<Scalar>("const")->value()<<std::endl;
     std::cout<<"input2:"<<input2.getOutput<Scalar>("auto")->value()<<std::endl;
     std::cout<<"computing:"<<computing.getOutput<Scalar>("computingresult")->value()<<std::endl;
 
-    std::cout<<"multiply scalar:"<<m1->getOutput<Scalar>("product")->value()<<std::endl;
-    std::cout<<"multiply nvector:"<<m2->getOutput<Scalar>("product")->value()<<std::endl;
-    //std::cout<<"add:"<<a.getOutput<Scalar>("result")<<std::endl;
+    std::cout<<"multiply scalar:"<<m1->getOutput<Scalar>("product__const_auto")->value()<<std::endl;
+
+    for (int i=0; i<m2->getOutputSize(); ++i)
+    {
+        std::cout<<m2->getOutput(i)->getName()<<": "<<m2->getOutput(i)->value(0)<<std::endl;
+    }
+
+
+
     return 0;
 }
 

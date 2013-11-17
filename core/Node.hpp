@@ -26,7 +26,8 @@ class Node
         template<class VARIABLE> VARIABLE* getOutput(std::string name);
         template<class VARIABLE> const VARIABLE* getInput(std::string name) const;
 
-        void updateOutput();
+        virtual void execute() = 0;
+        virtual void updateOutput();
 
         unsigned int getOutputSize() const
         {
@@ -66,10 +67,12 @@ class MultiplyNode:
             var1->addChild(_var1);
             Variable* _var2 = var2->clone(this);
             var2->addChild(_var2);
-            OpVariableInterface* opVariable = var1->createMultiplication("product", this, var2);
+            OpVariableInterface* opVariable = var1->createMultiplication("product__"+var1->getName()+"_"+var2->getName(), this, var2);
+
             _opVariables.push_back(opVariable);
-            _input.push_back(var1);
-            _input.push_back(var2);
+            _input.push_back(_var1);
+            _input.push_back(_var2);
+            //std::cout<<opVariable->getTarget()->getName()<<std::endl;
             _output.push_back(opVariable->getTarget());
         }
 
@@ -83,12 +86,23 @@ class MultiplyNode:
             return node;
 
         }
-        /*
+
         static MultiplyNode* multiply(Node* node1, Node* node2)
         {
-
+            MultiplyNode* node = new MultiplyNode();
+            for (unsigned int i = 0; i<node1->getOutputSize(); ++i)
+            {
+                for (unsigned int j = 0; j<node2->getOutputSize(); ++ j)
+                {
+                    if (node1->getOutput(i)->getName()==node2->getOutput(j)->getName())
+                    {
+                        node->_addMultiplicationPair(node1->getOutput(i),node2->getOutput(j));
+                    }
+                }
+            }
+            return node;
         }
-        */
+
         virtual ~MultiplyNode()
         {
             for (unsigned int i = 0; i < _opVariables.size(); ++i)

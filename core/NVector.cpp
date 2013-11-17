@@ -25,6 +25,7 @@ Variable* NVector::clone(Node* owner)
     {
         clone->value(i)=*_values[i];
     }
+    //std::cout<<clone<<" is clone of "<<this<<std::endl;
     return clone;
 }
 

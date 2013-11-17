@@ -17,6 +17,7 @@ Variable* Scalar::clone(Node* owner)
 {
     Scalar* scalar = new Scalar(_name,owner);
     scalar->value()=this->value();
+    //std::cout<<scalar<<" is clone of "<<this<<std::endl;
     return scalar;
 }
 

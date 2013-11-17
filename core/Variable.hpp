@@ -34,6 +34,10 @@ class Variable
         virtual double& value(const unsigned int index=0) = 0;
 
         virtual void addChild(Variable* variable);
+        virtual const std::vector<Variable*> getChildren() const
+        {
+            return _children;
+        }
 
         virtual void updateChildren();
         virtual const Variable* getParent() const;
