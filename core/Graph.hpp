@@ -8,30 +8,39 @@
 
 class Graph
 {
-    struct Edge
-    {
-        std::string name;
-        Node* target;
-    };
 
-    struct Leaf
-    {
-        std::vector<Edge*> out;
-        Node* owner;
-        std::vector<Edge*> in;
-    };
 
     protected:
+
+        struct Leaf;
+
+        struct Edge
+        {
+            std::string name;
+            Node* target;
+            Leaf* leaf;
+        };
+
+        struct Leaf
+        {
+            std::vector<Edge*> out;
+            Node* owner;
+            std::vector<Edge*> in;
+        };
+
+
+
         std::vector<Leaf*> _leafs;
         std::vector<Node*> _sortedNodes;
+        virtual void _setupLeaf(Leaf* leaf, Node* node);
+        Graph::Leaf* _findLeaf(Node* node);
     public:
         Graph();
         virtual ~Graph();
-        void sort();
-        std::vector<Node*> getSortedList();
-        void executeAll();
+        virtual void sort();
+        virtual std::vector<Node*> getSortedList();
+        virtual void executeAll();
         virtual void addNode(Node* node);
-        static Graph* createFromNode(Node* node);
 };
 
 #endif

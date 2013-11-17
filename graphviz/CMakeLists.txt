@@ -1,3 +1,5 @@
+set(CMAKE_CXX_FLAGS "-Wextra -Wall -pedantic -std=c++0x")
+
 OPTION(ENABLE_GRAPHVIZ "Build with GraphViz support" ON)
 if (ENABLE_GRAPHVIZ)
     SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}")

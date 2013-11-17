@@ -3,11 +3,11 @@
 //#define WITH_CGRAPH
 #include <iostream>
 
-GraphViz::GraphViz()
+GraphViz::GraphViz():
+    Graph()
 {
     /*
     Agraph_t* g =  agopen("G", Agdirected, NULL);
-
     std::vector<Agnode_t*> nodes;
     for (int i =0; i<10;++i)
     {
@@ -85,13 +85,30 @@ GraphViz::~GraphViz()
 
 void GraphViz::addNode(Node* node)
 {
+    //std::cout<<"adding node"<<std::endl;
+    GraphVizLeaf* leaf = new GraphVizLeaf();
+    Graph::_setupLeaf(leaf,node);
+    char name[20];
+    sprintf(name,"node %i",_leafs.size());
+    leaf->gnode = agnode(g, name);
+    agattr(leaf->gnode,"shape","record");
+    std::string slabel=createNodeRepresentation(leaf->owner);
+    char* label = new char[slabel.length()];
+    sprintf(label,"%s",slabel.c_str());
+    agset(leaf->gnode,"label",label);
+
+    _leafs.push_back(leaf);
+}
+
+std::string GraphViz::createNodeRepresentation(Node* node)
+{
 
     std::string inputLabels = "{";
     if (node->getInputSize()>0)
     {
         for (unsigned int i=0; i<node->getInputSize()-1; ++i)
         {
-            std::cout<<"for "<<i<<" | "<<node->getInputSize()<<std::endl;
+            //std::cout<<"for "<<i<<" | "<<node->getInputSize()<<std::endl;
             inputLabels+="<"+node->getInput(i)->getName()+"> "+node->getInput(i)->getName()+" |";
         }
         inputLabels+="<"+node->getInput(node->getInputSize()-1)->getName()+"> "+node->getInput(node->getInputSize()-1)->getName()+"}";
@@ -100,7 +117,7 @@ void GraphViz::addNode(Node* node)
     {
         inputLabels+="empty }";
     }
-    std::cout<<"input: "<<inputLabels<<std::endl;
+    //std::cout<<"input: "<<inputLabels<<std::endl;
     std::string outputLabels = "{";
 
     if (node->getOutputSize()>0)
@@ -115,9 +132,10 @@ void GraphViz::addNode(Node* node)
     {
         outputLabels+="empty }";
     }
-    std::cout<<"output: "<<outputLabels<<std::endl;
-    char* label = new char[400];
-    sprintf(label,"{ %s |{ node } | %s}",inputLabels.c_str(),outputLabels.c_str());
+    //std::cout<<"output: "<<outputLabels<<std::endl;
+
+    return std::string("{ "+inputLabels+" | { node } | "+outputLabels+" }");
+    /*
     char* name = new char[20];
     sprintf(name,"node %i",nodes.size());
     Agnode_t* graphviznode = agnode(g, name);
@@ -125,32 +143,56 @@ void GraphViz::addNode(Node* node)
     agattr(graphviznode,"shape","record");
     agset(graphviznode,"label",label);
     nodes.push_back(graphviznode);
-
-    for (unsigned int i=0; i<node->getInputSize(); ++i)
-    {
-        if (node->getInput(i)->hasParent())
-        {
-            std::cout<<node->getInput(i)->getParent()->getOwner()<<std::endl;
-            addNode(node->getInput(i)->getParent()->getOwner());
-        }
-    }
+    */
 }
 
-GraphViz* GraphViz::createFromNode(Node* node)
-{
-    GraphViz* graph = new GraphViz();
-    graph->addNode(node);
-    return graph;
-}
 
 void GraphViz::render(std::string filename)
 {
+    /*
+    for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
+    {
+        Leaf* leaf = Graph::_leafs[i];
+        char name[20];
+        sprintf(name,"node %i",nodes.size());
+        Agnode_t* graphviznode = agnode(g, name);
+        agattr(graphviznode,"shape","record");
+        std::string slabel=createNodeRepresentation(leaf->owner);
+        char* label = new char[slabel.length()];
+        sprintf(label,"%s",slabel.c_str());
+        agset(graphviznode,"label",label);
+        nodes.push_back(graphviznode);
+    }
+    for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
+    {
+        Leaf* leaf = Graph::_leafs[i];
+        for (unsigned int j = 0; j<leaf->out.size(); ++j)
+        {
+            Edge* edge = leaf->out[j];
+            for (unsigned int k = 0; k<_leafs.size(); ++k)
+            {
+                if (_leafs[k]->owner==edge->target)
+                {
+                    Agedge_t* gedge = agedge(g,nodes[i],nodes[k]);
+                    //char* headport = new char[100];
+                    //sprintf(headport,"%s:n",edge->name.c_str());
+                    //char* tailport = new char[100];
+                    //sprintf(tailport,"%s:s",_leafs[k]->in[0].c_str());
+                    //agattr(gedge,"headport",headport);
+                    //agattr(gedge,"tailport",tailport);
+                }
+            }
+        }
+    }
+    */
+    //agedge(g,nodes[0],nodes[1]);
     gvLayout (gvc, g, "dot");
     //point pos = agget(nodes[0],"point");
     //std::cout<<"pos:"<<pos<<std::endl;
     gvRenderFilename(gvc, g, "png", (filename+".png").c_str());
     FILE* f = fopen ((filename+".txt").c_str() , "w");
     agwrite(g,f);
+    fclose(f);
 
 }
 

@@ -16,6 +16,12 @@ void Graph::addNode(Node* node)
 {
     //std::cout<<"adding node"<<std::endl;
     Leaf* leaf = new Leaf();
+    _leafs.push_back(leaf);
+}
+
+void Graph::_setupLeaf(Leaf* leaf, Node* node)
+{
+
     leaf->owner=node;
     for (unsigned int ivar = 0; ivar<node->getOutputSize();++ivar)
     {
@@ -25,6 +31,12 @@ void Graph::addNode(Node* node)
         {
             Edge* edge = new Edge();
             edge->target=children[ichild]->getOwner();
+
+            //---------------------------------------------------------------------------------------------
+            //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
+            edge->leaf=_findLeaf(edge->target);
+            //---------------------------------------------------------------------------------------------
+
             edge->name=output->getName()+"->"+children[ichild]->getName();
             leaf->out.push_back(edge);
             //std::cout<<"out: "<<edge->name<<std::endl;
@@ -37,13 +49,29 @@ void Graph::addNode(Node* node)
         {
             Edge* edge = new Edge();
             edge->target=input->getParent()->getOwner();
+
+            //---------------------------------------------------------------------------------------------
+            //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
+            edge->leaf=_findLeaf(edge->target);
+            //---------------------------------------------------------------------------------------------
+
             edge->name=input->getParent()->getName()+"->"+input->getName();
             leaf->in.push_back(edge);
             //std::cout<<"in: "<<edge->name<<std::endl;
         }
     }
-    _leafs.push_back(leaf);
+}
 
+Graph::Leaf* Graph::_findLeaf(Node* node)
+{
+    for (unsigned int i=0; i<_leafs.size();++i)
+    {
+        if (node==_leafs[i]->owner)
+        {
+            return _leafs[i];
+        }
+    }
+    return 0;
 }
 
 void Graph::sort()
@@ -121,8 +149,3 @@ std::vector<Node*> Graph::getSortedList()
     return _sortedNodes;
 }
 
-Graph* Graph::createFromNode(Node* node)
-{
-    Graph* graph = new Graph();
-    return graph;
-}

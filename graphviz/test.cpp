@@ -74,8 +74,14 @@ int main()
     computing.execute();
     computing.updateOutput();
 
-    GraphViz* g = GraphViz::createFromNode(&computing);
+
+    GraphViz* g = new GraphViz();
+    g->addNode(&input1);
+    g->addNode(&input2);
+    g->addNode(&computing);
+    g->sort();
     g->render("graph");
+
     return 0;
 }
 
