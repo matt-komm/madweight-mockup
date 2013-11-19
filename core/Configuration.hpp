@@ -14,13 +14,13 @@ class Configuration
             protected:
                 union Data
                 {
-                    bool* boolean;
-                    int* integer;
-                    int* uinteger;
-                    double* floatingpoint;
-                    std::string* string;
-                    std::vector<GenericType*>* list;
-                    std::unordered_map<std::string, GenericType*>* map;
+                    const bool* boolean;
+                    const int* integer;
+                    const unsigned int* uinteger;
+                    const double* floatingpoint;
+                    const std::string* string;
+                    const std::vector<GenericType*>* list;
+                    const std::unordered_map<std::string, GenericType*>* map;
                 };
                 enum TYPE
                 {
@@ -34,37 +34,43 @@ class Configuration
                 {
                 }
             public:
-                static GenericType* create(bool boolean)
+                static GenericType* create(const bool boolean)
                 {
                     GenericType* g = new GenericType(BOOLEAN);
-                    *g->_data.boolean=boolean;
+                    g->_data.boolean=new bool(boolean);
                     return g;
                 }
-                static GenericType* create(int integer)
+                static GenericType* create(const int integer)
                 {
                     GenericType* g = new GenericType(INTEGER);
-                    *g->_data.integer=integer;
+                    g->_data.integer=new int(integer);
                     return g;
                 }
-                static GenericType* create(double floatingpoint)
+                static GenericType* create(const unsigned int uinteger)
+                {
+                    GenericType* g = new GenericType(UINTEGER);
+                    g->_data.uinteger=new unsigned int(uinteger);
+                    return g;
+                }
+                static GenericType* create(const double floatingpoint)
                 {
                     GenericType* g = new GenericType(FLOATINGPOINT);
-                    *g->_data.floatingpoint=floatingpoint;
+                    g->_data.floatingpoint=new double(floatingpoint);
                     return g;
                 }
-                static GenericType* create(std::string string)
+                static GenericType* create(const std::string string)
                 {
                     GenericType* g = new GenericType(STRING);
-                    *g->_data.string=string;
+                    g->_data.string=new std::string(string);
                     return g;
                 }
-                static GenericType* create(std::vector<GenericType*>* list)
+                static GenericType* create(const std::vector<GenericType*>* list)
                 {
                     GenericType* g = new GenericType(LIST);
                     g->_data.list=list;
                     return g;
                 }
-                static GenericType* create(std::unordered_map<std::string,GenericType*>* map)
+                static GenericType* create(const std::unordered_map<std::string,GenericType*>* map)
                 {
                     GenericType* g = new GenericType(MAP);
                     g->_data.map=map;
