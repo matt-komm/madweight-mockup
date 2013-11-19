@@ -11,6 +11,7 @@ add_library(mw-core SHARED
     Node.cpp
     Algorithm.cpp
     Graph.cpp
+    Configuration.cpp
 )
 
 add_executable(test-core test.cpp)
