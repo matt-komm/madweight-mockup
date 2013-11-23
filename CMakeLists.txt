@@ -5,6 +5,7 @@ project (madweight-mockup)
 
 
 set(MW_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x")
 
 OPTION(BUILD_WITH_COVERAGE "Build with coverage analysis support" OFF)
 if(BUILD_WITH_COVERAGE)
@@ -28,7 +29,6 @@ add_subdirectory(external)
 
 add_subdirectory(core)
 add_subdirectory(mem)
-add_subdirectory(graphviz)
-add_subdirectory(swig)
+add_subdirectory(addons)
 add_subdirectory(examples)
 

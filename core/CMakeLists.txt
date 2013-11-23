@@ -1,6 +1,6 @@
 include_directories(${MW_ROOT}/core)
 
-set(CMAKE_CXX_FLAGS "-Wextra -Wall -pedantic -std=c++0x")
+set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 
 add_library(mw-core SHARED
     

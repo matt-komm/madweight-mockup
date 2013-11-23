@@ -1,7 +1,7 @@
 include_directories(${MW_ROOT}/core)
 include_directories(${MW_ROOT}/mem)
 
-set(CMAKE_CXX_FLAGS "-Wextra -Wall -pedantic -std=c++0x")
+set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 
 add_library(mw-mem SHARED
     TransferFunction.cpp

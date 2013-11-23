@@ -3,7 +3,7 @@ add_subdirectory(ME)
 include_directories(${MW_ROOT}/core)
 include_directories(${MW_ROOT}/mem)
 include_directories(${MW_ROOT}/examples/ME/qcd_2j)
-set(CMAKE_CXX_FLAGS "-Wextra -Wall -pedantic -std=c++0x")
+set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 
 
 add_executable(test-examples test.cpp)
