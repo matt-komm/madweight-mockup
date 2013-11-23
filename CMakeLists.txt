@@ -24,9 +24,11 @@ if(BUILD_WITH_COVERAGE)
     endif(CMAKE_COMPILER_IS_GNUCC)
 endif(BUILD_WITH_COVERAGE)
 
+add_subdirectory(external)
+
 add_subdirectory(core)
 add_subdirectory(mem)
 add_subdirectory(graphviz)
 add_subdirectory(swig)
 add_subdirectory(examples)
-add_subdirectory(vamp)
+
