@@ -29,59 +29,51 @@ class Configuration
 
                 Data _data;
                 TYPE _type;
-                GenericType(GenericType::TYPE type):
-                    _type(type)
-                {
-                }
             public:
-                static GenericType* create(const bool boolean)
+                GenericType(const bool boolean):
+                    _type(BOOLEAN)
                 {
-                    GenericType* g = new GenericType(BOOLEAN);
-                    g->_data.boolean=new bool(boolean);
-                    return g;
+                    _data.boolean=new bool(boolean);
                 }
-                static GenericType* create(const int integer)
+                GenericType(const int integer):
+                    _type(INTEGER)
                 {
-                    GenericType* g = new GenericType(INTEGER);
-                    g->_data.integer=new int(integer);
-                    return g;
+                    _data.integer=new int(integer);
                 }
-                static GenericType* create(const unsigned int uinteger)
+                GenericType(const unsigned int uinteger):
+                    _type(UINTEGER)
                 {
-                    GenericType* g = new GenericType(UINTEGER);
-                    g->_data.uinteger=new unsigned int(uinteger);
-                    return g;
+                    _data.uinteger=new unsigned int(uinteger);
                 }
-                static GenericType* create(const double floatingpoint)
+                GenericType(const double floatingpoint):
+                    _type(FLOATINGPOINT)
                 {
-                    GenericType* g = new GenericType(FLOATINGPOINT);
-                    g->_data.floatingpoint=new double(floatingpoint);
-                    return g;
+                    _data.floatingpoint=new double(floatingpoint);
                 }
-                static GenericType* create(const std::string string)
+                GenericType(const std::string string):
+                    _type(STRING)
                 {
-                    GenericType* g = new GenericType(STRING);
-                    g->_data.string=new std::string(string);
-                    return g;
+                    _data.string=new std::string(string);
                 }
-                static GenericType* create(const std::vector<GenericType*>* list)
+                GenericType(const std::vector<GenericType*>* list):
+                    _type(LIST)
                 {
-                    GenericType* g = new GenericType(LIST);
-                    g->_data.list=list;
-                    return g;
+                    _data.list=list;
                 }
-                static GenericType* create(const std::unordered_map<std::string,GenericType*>* map)
+                GenericType(const std::unordered_map<std::string,GenericType*>* map):
+                    _type(MAP)
                 {
-                    GenericType* g = new GenericType(MAP);
-                    g->_data.map=map;
-                    return g;
+                    _data.map=map;
                 }
-
         };
     protected:
         std::unordered_map<std::string,GenericType*> _map;
     public:
         Configuration();
+        void insert(std::string name, GenericType type)
+        {
+            _map[name]=new GenericType(type);
+        }
         ~Configuration();
 
 };

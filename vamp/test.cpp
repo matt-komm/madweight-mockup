@@ -1,3 +1,4 @@
+
 #include "VAMPIntegrator.hpp"
 
 int main()

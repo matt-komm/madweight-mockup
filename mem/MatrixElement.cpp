@@ -1,11 +1,17 @@
 #include "MatrixElement.hpp"
 
-MatrixElement::MatrixElement()
+MatrixElement::MatrixElement(Configuration config):
+    Module(config)
 {
 }
 
 MatrixElement::~MatrixElement()
 {
+}
+
+void MatrixElement::execute()
+{
+
 }
 
 

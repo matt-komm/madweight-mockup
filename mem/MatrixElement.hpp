@@ -1,12 +1,19 @@
 #ifndef __MATRIXELEMENT_H__
 #define __MATRIXELEMENT_H__
 
-class MatrixElement
+#include "MatrixElement.hpp"
+#include "Module.hpp"
+#include "Configuration.hpp"
+
+class MatrixElement:
+    public Module
 {
     protected:
     public:
-        MatrixElement();
+        MatrixElement(Configuration config);
         ~MatrixElement();
+
+        virtual void execute();
 };
 
 #endif

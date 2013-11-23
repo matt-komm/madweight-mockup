@@ -9,7 +9,7 @@ add_library(mw-mem SHARED
 )
 add_dependencies(mw-mem mw-core)
 
-#add_executable(test-core test.cpp)
-#target_link_libraries(test-core mw-core)
-#add_dependencies(test-core mw-core)
+add_executable(test-mem test.cpp)
+target_link_libraries(test-mem mw-core)
+add_dependencies(test-mem mw-core)
 

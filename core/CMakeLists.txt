@@ -12,6 +12,9 @@ add_library(mw-core SHARED
     Algorithm.cpp
     Graph.cpp
     Configuration.cpp
+    Module.cpp
+    Job.cpp
+    JobFactory.cpp
 )
 
 add_executable(test-core test.cpp)

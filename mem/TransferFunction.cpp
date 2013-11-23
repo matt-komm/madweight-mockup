@@ -1,6 +1,7 @@
 #include "TransferFunction.hpp"
 
-TransferFunction::TransferFunction()
+TransferFunction::TransferFunction(Configuration config):
+    Module(config)
 {
 }
 
@@ -8,4 +9,7 @@ TransferFunction::~TransferFunction()
 {
 }
 
+void TransferFunction::execute()
+{
 
+}
