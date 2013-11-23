@@ -1,0 +1,23 @@
+language: cpp
+compiler:
+  - gcc
+before_install:
+  - sudo apt-get install swig
+  - sudo apt-get install graphviz
+  - sudo apt-get install gfortran
+before_script:
+  - mkdir build
+  - cd build
+  - cmake -G"Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug -D ENABLE_VAMP=OFF ..
+script: 
+  - make
+branches:
+  only:
+    - master
+notifications:
+  email:
+    recipients:
+      - mkomm@cern.ch
+    on_success: change
+    on_failure: always
+
