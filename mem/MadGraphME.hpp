@@ -15,28 +15,40 @@ class MadGraphME:
         ME* _me;
         Variable** _momenta;
         std::vector<double*> _mlist;
-    public:
+
         MadGraphME(Configuration config):
             MatrixElement(config)
         {
+            _me=new ME();
+            _me->initProc("param_card.dat");
+            _momenta=new Variable*[_me->nexternal];
+
+            for (int i = 0; i< _me->nexternal; ++i)
+            {
+                //_mlist
+                //_momenta[i]=getVariable<Scalar>("name");
+            }
+        }
+    public:
+        static MadGraphME<ME>* create(Configuration config)
+        {
             try
             {
-                _me=new ME();
-                _me->initProc("param_card.dat");
-                _momenta=new Variable*[_me->nexternal];
-
-                for (int i = 0; i< _me->nexternal; ++i)
-                {
-                    //_mlist
-                    //_momenta[i]=getVariable<Scalar>("name");
-                }
+                MadGraphME<ME>* madGraphME = new MadGraphME<ME>(config);
+                return madGraphME;
             } catch (const char* msg) {
                 std::cout<<msg<<std::endl;
             }
+            return 0;
         }
+
+        int getNExternal()
+        {
+            return _me->nexternal;
+        }
+
         ~MadGraphME()
         {
-
         }
 
         virtual void execute()
@@ -49,4 +61,5 @@ class MadGraphME:
 };
 
 #endif
+
 

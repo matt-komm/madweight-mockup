@@ -5,9 +5,9 @@
 int main()
 {
     Configuration config;
-    Configuration::GenericType name= Configuration::GenericType("test");
     config.insert("name","test");
-    MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j> me=MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j>(config);
+    MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j>* me=MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j>::create(config);
+    std::cout<<"number of external particles: "<<me->getNExternal()<<std::endl;
     return 0;
 }
 
