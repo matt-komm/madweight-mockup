@@ -9,8 +9,11 @@ extern "C"
 {
     void integrate_(
         int *,
-        void (*fct)(int*)
+        int *,
+
+        double* (*fct)(double**, int*, double**, int*)
     );
+
 }
 
 class VAMPIntegrator:
@@ -24,7 +27,7 @@ class VAMPIntegrator:
         virtual void execute();
 };
 
-void func(int* i);
+double* func(double** xi, int* prc_index, double** weights, int* channel);
 
 #endif
 

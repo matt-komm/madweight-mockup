@@ -11,13 +11,20 @@ VAMPIntegrator::~VAMPIntegrator()
 
 void VAMPIntegrator::execute()
 {
-    int i = 100;
-    integrate_(&i,func);
+    int dim = 2;
+    int iterations = 4;
+    integrate_(&dim,&iterations,func);
 }
 
-void func(int* i)
+double* func(double** xi, int* prc_index, double** weights, int* channel)
 {
-    std::cout<<*i<<std::endl;
+    std::cout<<"func has been called: "<<std::endl;
+    std::cout<<"\t xi[0] = "<<*xi[0]<<std::endl;
+    std::cout<<"\t prc_index = "<<*prc_index<<std::endl;
+    std::cout<<"\t weights[0] = "<<*weights[0]<<std::endl;
+    std::cout<<"\t channel = "<<*channel<<std::endl;
+    return new double(0.3521);
+
 }
 
 
