@@ -1,6 +1,7 @@
 #include "VAMPIntegrator.hpp"
 
-VAMPIntegrator::VAMPIntegrator()
+VAMPIntegrator::VAMPIntegrator(std::string name):
+    Algorithm(name)
 {
 }
 

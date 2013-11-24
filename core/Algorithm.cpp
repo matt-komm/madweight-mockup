@@ -1,6 +1,7 @@
 #include "Algorithm.hpp"
 
-Algorithm::Algorithm()
+Algorithm::Algorithm(std::string name):
+    Job(name)
 {
 }
 
@@ -12,7 +13,8 @@ void Algorithm::setInput(std::string name, Node* node)
 {
 }
 
-void Algorithm::run(std::unordered_map<std::string,Node*> input)
+void Algorithm::execute(std::unordered_map<std::string,Node*> input)
 {
+    //convenience - adds all inputs and then executes
 }
 

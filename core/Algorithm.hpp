@@ -2,19 +2,21 @@
 #define __ALGORITHM_H__
 
 #include "Node.hpp"
+#include "Job.hpp"
 
+#include <string>
 #include <unordered_map>
 
-class Algorithm
+class Algorithm:
+    public Job
 {
     protected:
         std::unordered_map<std::string,Node*> _input;
     public:
-        Algorithm();
+        Algorithm(std::string name);
         virtual ~Algorithm();
         void setInput(std::string name, Node* node);
-        void run(std::unordered_map<std::string,Node*> input);
-        virtual void run() = 0;
+        void execute(std::unordered_map<std::string,Node*> input);
 };
 
 #endif
