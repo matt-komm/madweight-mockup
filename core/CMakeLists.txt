@@ -1,4 +1,4 @@
-include_directories(${MW_ROOT}/core)
+include_directories(${PROJECT_SOURCE_DIR}/core)
 
 set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 

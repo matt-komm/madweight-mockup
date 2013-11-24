@@ -1,5 +1,5 @@
-include_directories(${MW_ROOT}/core)
-include_directories(${MW_ROOT}/mem)
+include_directories(${PROJECT_SOURCE_DIR}/core)
+include_directories(${PROJECT_SOURCE_DIR}/mem)
 
 set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 

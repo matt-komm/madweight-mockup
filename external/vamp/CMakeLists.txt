@@ -12,7 +12,7 @@ if (ENABLE_VAMP)
 ENABLE_LANGUAGE(Fortran)
 SET (CMAKE_Fortran_COMPILER  gfortran)
 
-include_directories(${MW_ROOT}/external/vamp ${VAMP_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/external/vamp ${VAMP_INCLUDE_DIRS})
 add_library(mw-vamp SHARED interface.f90 VAMPIntegrator.cpp)
 link_directories(${VAMP_LIBRARIES})
 target_link_libraries(mw-vamp mw-core )
