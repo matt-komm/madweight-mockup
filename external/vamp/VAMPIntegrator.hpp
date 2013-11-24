@@ -11,7 +11,7 @@ extern "C"
         int *,
         int *,
 
-        double* (*fct)(double**, int*, double**, int*)
+        double (*fct)(double**, int*)
     );
 
 }
@@ -27,7 +27,7 @@ class VAMPIntegrator:
         virtual void execute();
 };
 
-double* func(double** xi, int* prc_index, double** weights, int* channel);
+double func(double** xi, int* prc_index);
 
 #endif
 

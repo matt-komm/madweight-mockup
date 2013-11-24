@@ -56,13 +56,13 @@ subroutine integrate(Ndim,iterations, func)
     integer, intent(in) :: Ndim
     integer, intent(in) :: iterations
     interface
-        function func (xi, prc_index, weights, channel) result (f)
+        function func (xi, prc_index) result (f)
             use kinds
             !use vamp_grid_type !NODEP!
             real(kind=default), dimension(:), intent(in) :: xi
             integer, intent(in) :: prc_index
-            real(kind=default), dimension(:), intent(in), optional :: weights
-            integer, intent(in), optional :: channel
+            !real(kind=default), dimension(:), intent(in), optional :: weights
+            !integer, intent(in), optional :: channel
             !type(vamp_grid), dimension(:), intent(in), optional :: grids
             real(kind=default) :: f
         end function func
@@ -75,7 +75,8 @@ subroutine integrate(Ndim,iterations, func)
     
     real(kind=default), dimension(Ndim) :: testArray
     real(kind=default) :: res
-
+    
+    
     
     
     testArray(:)=1.5134d0
@@ -86,10 +87,13 @@ subroutine integrate(Ndim,iterations, func)
     domain(2,:) = 1.0
     
     
-    
+    write(*,*) "kind",default
     write(*,*) "Ndim",Ndim
     write(*,*) "iterations",iterations
-    res = func (testArray,Ndim,testArray,iterations)
+    !res = func (testArray,Ndim,testArray,iterations)
+    !write(*,*) "result",res
+    
+    
     
     call tao_random_create (rng, seed=0)
     call clear_exception (exc)
@@ -129,14 +133,28 @@ subroutine integrate(Ndim,iterations, func)
     !integer :: iteration, ndim
     !ndim = size (g%div)
 
-    call vamp_sample_grid (rng, grid, fct, 0, 4, integral, error, chi2, exc=exc)
+    call vamp_sample_grid (rng, grid, vampfct, 0, 4, integral, error, chi2, exc=exc)
     call handle_exception (exc)
     call clear_exception (exc)
     print *, "integral = ", integral, "+/-", error, " (chi^2 = ", chi2, ")"
     call vamp_discard_integral (grid, num_calls=iterations, exc=exc)
     call handle_exception (exc)
     call clear_exception (exc)
-    call vamp_sample_grid (rng, grid, fct, 0, 4, integral, error, chi2, exc=exc)
+    call vamp_sample_grid (rng, grid, vampfct, 0, 4, integral, error, chi2, exc=exc)
     call handle_exception (exc)
     print *, "integral = ", integral, "+/-", error, " (chi^2 = ", chi2, ")"
+    
+    
+    
+    contains
+    function vampfct (x, prc_index, weights, channel, grids) result (f_x)
+        real(kind=default), dimension(:), intent(in) :: x
+        integer, intent(in) :: prc_index
+        real(kind=default), dimension(:), intent(in), optional :: weights
+        integer, intent(in), optional :: channel
+        type(vamp_grid), dimension(:), intent(in), optional :: grids
+        real(kind=default) :: f_x
+        !f_x = exp (sin(x(1)*x(2)*10)+1)
+        f_x  = func (x,prc_index)
+    end function vampfct
 end subroutine integrate
