@@ -23,8 +23,9 @@ class GenericType
             BOOLEAN, INTEGER, UINTEGER, FLOATINGPOINT, STRING, LIST, MAP
         };
 
-        Data _data;
+
         TYPE _type;
+        Data _data;
     public:
         GenericType(const GenericType& type):
             _type(type._type),
@@ -56,18 +57,18 @@ class GenericType
         {
             _data.string=new std::string(string);
         }
-        GenericType(std::vector<GenericType*>* list):
+        GenericType(std::vector<GenericType*> list):
             _type(LIST)
         {
-            _data.list=list;
+            _data.list=new std::vector<GenericType*>(list);
         }
-        GenericType(std::unordered_map<std::string,GenericType*>* map):
+        GenericType(std::unordered_map<std::string,GenericType*> map):
             _type(MAP)
         {
-            _data.map=map;
+            _data.map=new std::unordered_map<std::string,GenericType*>(map);
         }
 
-        GenericType* get(std::string name)
+        GenericType get(std::string name)
         {
             if (_type==MAP)
             {
@@ -88,11 +89,11 @@ class GenericType
             }
         }
 
-        void insert(GenericType* type)
+        void insert(GenericType type)
         {
             if (_type==LIST)
             {
-                //_data.list->push_back(type);
+                _data.list->push_back(new GenericType(type));
             }
             else
             {
@@ -104,7 +105,11 @@ class GenericType
         {
             if (_type==MAP)
             {
-                //(*_data.map)[name]=type;
+                if (_data.map->find(name)!=_data.map->end())
+                {
+                    delete (*_data.map)[name];
+                }
+                (*_data.map)[name]=new GenericType(type);
             }
             else
             {
