@@ -23,9 +23,11 @@ class MadGraphME:
             _me->initProc("param_card.dat");
             _momenta=new Variable*[_me->nexternal];
 
+
+
             for (int i = 0; i< _me->nexternal; ++i)
             {
-                //_mlist
+                _mlist.push_back(new double(0));
                 //_momenta[i]=getVariable<Scalar>("name");
             }
         }
