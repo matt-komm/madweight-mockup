@@ -3,6 +3,7 @@
 
 #include "MatrixElement.hpp"
 #include "Configuration.hpp"
+#include "Scalar.hpp"
 
 #include <iostream>
 
@@ -15,6 +16,7 @@ class MadGraphME:
         ME* _me;
         Variable** _momenta;
         std::vector<double*> _mlist;
+        Scalar* _output;
 
         MadGraphME(Configuration config):
             MatrixElement(config)
@@ -23,7 +25,7 @@ class MadGraphME:
             _me->initProc("param_card.dat");
             _momenta=new Variable*[_me->nexternal];
 
-
+            _output=createVariable<Scalar>("weight");
 
             for (int i = 0; i< _me->nexternal; ++i)
             {
@@ -59,6 +61,7 @@ class MadGraphME:
             //_me->setMomenta
             _me->sigmaKin();
             const double* matrix_elements = _me->getMatrixElements();
+            _output->value()=*matrix_elements;
         }
 };
 

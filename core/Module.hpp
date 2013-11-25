@@ -8,6 +8,7 @@ class Module:
     public Node
 {
     protected:
+        Configuration _config;
     public:
         Module(Configuration config);
         ~Module();

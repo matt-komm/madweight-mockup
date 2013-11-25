@@ -32,27 +32,27 @@ class GenericType
             _data(type._data)
         {
         }
-        GenericType(const bool boolean):
+        GenericType(bool boolean):
             _type(BOOLEAN)
         {
             _data.boolean=new bool(boolean);
         }
-        GenericType(const int integer):
+        GenericType(int integer):
             _type(INTEGER)
         {
             _data.integer=new int(integer);
         }
-        GenericType(const unsigned int uinteger):
+        GenericType(unsigned int uinteger):
             _type(UINTEGER)
         {
             _data.uinteger=new unsigned int(uinteger);
         }
-        GenericType(const double floatingpoint):
+        GenericType(double floatingpoint):
             _type(FLOATINGPOINT)
         {
             _data.floatingpoint=new double(floatingpoint);
         }
-        GenericType(const std::string string):
+        GenericType(std::string string):
             _type(STRING)
         {
             _data.string=new std::string(string);

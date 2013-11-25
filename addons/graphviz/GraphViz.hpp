@@ -7,6 +7,13 @@
 #include <graphviz/gvc.h>
 #include <graphviz/graph.h>
 
+char* strtochar(std::string s)
+{
+    char* c = new char[s.length()+1];
+    //strcpy(c,s.c_str());
+    return c;
+}
+
 class GraphViz:
     public Graph
 {

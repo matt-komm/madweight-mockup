@@ -16,6 +16,8 @@ void Graph::addNode(Node* node)
 {
     //std::cout<<"adding node"<<std::endl;
     Leaf* leaf = new Leaf();
+    this->_setupLeaf(leaf,node);
+
     _leafs.push_back(leaf);
 }
 

@@ -27,8 +27,7 @@ GraphViz::GraphViz():
     */
     gvc = gvContext();
     aginit();
-
-    g = agopen("G", AGDIGRAPH);
+    g = agopen(strtochar("G"), AGDIGRAPH);
     /*
     for (int i =0; i<10;++i)
     {
@@ -89,13 +88,13 @@ void GraphViz::addNode(Node* node)
     GraphVizLeaf* leaf = new GraphVizLeaf();
     Graph::_setupLeaf(leaf,node);
     char name[20];
-    sprintf(name,"node %i",_leafs.size());
+    //sprintf(name,"node %u",_leafs.size());
     leaf->gnode = agnode(g, name);
-    agattr(leaf->gnode,"shape","record");
+    agattr(leaf->gnode,strtochar("shape"),strtochar("record"));
     std::string slabel=createNodeRepresentation(leaf->owner);
     char* label = new char[slabel.length()];
     sprintf(label,"%s",slabel.c_str());
-    agset(leaf->gnode,"label",label);
+    agset(leaf->gnode,strtochar("label"),label);
 
     _leafs.push_back(leaf);
 }

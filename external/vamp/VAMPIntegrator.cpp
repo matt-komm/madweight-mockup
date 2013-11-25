@@ -25,7 +25,7 @@ double func(double** xi, int* prc_index)
     //std::cout<<"\t prc_index = "<<*prc_index<<std::endl;
     //std::cout<<"\t weights[0] = "<<*weights[0]<<std::endl;
     //std::cout<<"\t channel = "<<*channel<<std::endl;
-
+    UNUSED(prc_index);
     return exp (sin((*xi)[0]*(*xi)[1]*10)+1);
 }
 

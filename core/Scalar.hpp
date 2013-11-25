@@ -18,13 +18,13 @@ class Scalar:
         virtual Variable* clone(Node* owner);
 
         virtual void setSize(unsigned int size);
-        virtual const unsigned int size() const;
+        virtual unsigned int size() const;
         virtual const double& value(const unsigned int index=0) const;
         virtual double& value(const unsigned int index=0);
 
         virtual OpVariableInterface* createMultiplication(std::string name, Node* owner, const Variable* variable) const;
 
-        virtual const Variable::TYPE getType() const
+        virtual Variable::TYPE getType() const
         {
             return Variable::SCALAR;
         }

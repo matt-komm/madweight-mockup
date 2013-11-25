@@ -23,21 +23,23 @@ Variable* Scalar::clone(Node* owner)
 
 void Scalar::setSize(unsigned int size)
 {
-
+    UNUSED(size);
 }
 
-const unsigned int Scalar::size() const
+unsigned int Scalar::size() const
 {
     return 1;
 }
 
 const double& Scalar::value(const unsigned int index) const
 {
+    UNUSED(index);
     return *_value;
 }
 
 double& Scalar::value(const unsigned int index)
 {
+    UNUSED(index);
     return *_value;
 }
 

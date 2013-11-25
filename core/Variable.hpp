@@ -1,9 +1,12 @@
 #ifndef __Variable_H__
 #define __Variable_H__
 
+
 #include <string>
 #include <vector>
 #include <iostream>
+
+#include "defs.hpp"
 
 //#include "Node.hpp"
 class Node;
@@ -28,7 +31,7 @@ class Variable
         virtual Variable* clone(Node* owner) = 0;
 
         virtual void setSize(unsigned int size) = 0;
-        virtual const unsigned int size() const = 0;
+        virtual unsigned int size() const = 0;
 
         virtual const double& value(const unsigned int index=0) const = 0;
         virtual double& value(const unsigned int index=0) = 0;
@@ -42,7 +45,7 @@ class Variable
         virtual void updateChildren();
         virtual const Variable* getParent() const;
         virtual bool hasParent() const;
-        virtual const TYPE getType() const =0;
+        virtual TYPE getType() const =0;
 
         virtual OpVariableInterface* createMultiplication(std::string name, Node* owner, const Variable* variable) const = 0;
         //virtual void multiply(Variable* target, const Variable* variable) const = 0;

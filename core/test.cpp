@@ -104,7 +104,7 @@ int main()
 
     std::cout<<"multiply scalar:"<<m1->getOutput<Scalar>("product__const_auto")->value()<<std::endl;
 
-    for (int i=0; i<m2->getOutputSize(); ++i)
+    for (unsigned int i=0; i<m2->getOutputSize(); ++i)
     {
         std::cout<<m2->getOutput(i)->getName()<<": "<<m2->getOutput(i)->value(0)<<std::endl;
     }

@@ -1,6 +1,7 @@
 #ifndef __VAMPINTEGRATOR_H__
 #define __VAMPINTEGRATOR_H__
 
+#include "defs.hpp"
 #include "Algorithm.hpp"
 
 #include <iostream>
