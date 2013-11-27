@@ -27,6 +27,12 @@ class GenericType
         TYPE _type;
         Data _data;
     public:
+        static GenericType& createEmpty()
+    	{
+        	GenericType* gt = new GenericType(std::unordered_map<std::string,GenericType*>());
+        	return *gt;
+    	}
+
         GenericType(const GenericType& type):
             _type(type._type),
             _data(type._data)
@@ -116,21 +122,36 @@ class GenericType
                 throw std::string("config type is not a map! Cannot use 'insert(std::string, GenericType*)' method.");
             }
         }
-};
 
-
-class Configuration:
-    public GenericType
-{
-    public:
-        Configuration():
-            GenericType(new std::unordered_map<std::string,GenericType*>())
-
+        bool exists(std::string name)
         {
-        }
-        ~Configuration();
+        	if (_type==MAP)
+			{
+				return _data.map->find(name)!=_data.map->end();
+			}
+        	else
+        	{
+                throw std::string("config type is not a map! Cannot use 'exists(std::string)' method.");
+                return false;
+        	}
 
+        }
+
+        unsigned int size()
+        {
+        	if (_type==LIST)
+			{
+				return _data.list->size();
+			}
+			else
+			{
+				throw std::string("config type is not a list! Cannot use 'size()' method.");
+				return 0;
+			}
+        }
 };
+
+typedef GenericType Configuration;
 
 #endif
 
