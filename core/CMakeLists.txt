@@ -8,7 +8,6 @@ add_library(mw-core SHARED
     NVector.cpp
     Scalar.cpp
     LorentzVector.cpp
-    VariableArray.cpp
     Node.cpp
     Algorithm.cpp
     Graph.cpp
