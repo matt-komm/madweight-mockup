@@ -10,11 +10,11 @@ class GenericType
     protected:
         union Data
         {
-            const bool* boolean;
-            const int* integer;
-            const unsigned int* uinteger;
-            const double* floatingpoint;
-            const std::string* string;
+            bool* boolean;
+            int* integer;
+            unsigned int* uinteger;
+            double* floatingpoint;
+            std::string* string;
             std::vector<GenericType*>* list;
             std::unordered_map<std::string, GenericType*>* map;
         };
@@ -74,63 +74,39 @@ class GenericType
             _data.map=new std::unordered_map<std::string,GenericType*>(map);
         }
 
-        operator bool()
+        template<class TYPE> TYPE value()
         {
         	if (_type==BOOLEAN)
         	{
-        		return *_data.boolean;
+        		return *(TYPE*)(_data.boolean);
         	}
-        	throw std::string("type is not a bool type");
-        	return false;
+        	else if (_type==INTEGER)
+			{
+				return *(TYPE*)(_data.integer);
+			}
+        	else if (_type==UINTEGER)
+			{
+				return *(TYPE*)(_data.uinteger);
+			}
+        	else if (_type==FLOATINGPOINT)
+			{
+				return *(TYPE*)(_data.floatingpoint);
+			}
+        	else if (_type==STRING)
+			{
+				return *(TYPE*)(_data.string);
+			}
+        	return *(TYPE*)this;
         }
 
-        operator int()
-        {
-        	if (_type==INTEGER)
-        	{
-        		return *_data.integer;
-        	}
-        	throw std::string("type is not an integer type");
-        	return 0;
-        }
-
-        operator unsigned int()
-        {
-        	if (_type==UINTEGER)
-        	{
-        		return *_data.uinteger;
-        	}
-        	throw std::string("type is not a unsigned integer type");
-        	return 0;
-        }
-
-        operator double()
-        {
-        	if (_type==FLOATINGPOINT)
-        	{
-        		return *_data.floatingpoint;
-        	}
-        	throw std::string("type is not a double type");
-        	return 0;
-        }
-
-        operator std::string()
-        {
-        	if (_type==STRING)
-        	{
-        		return *_data.string;
-        	}
-        	throw std::string("type is not a std::string");
-        	return std::string("");
-        }
-
-        GenericType get(std::string name)
+        template<class TYPE> TYPE get(std::string name)
         {
             if (_type==MAP)
             {
                 if (_data.map->find(name)!=_data.map->end())
                 {
-                    return (*_data.map)[name];
+                	GenericType t = (*_data.map)[name];
+                	return t.value<TYPE>();
                 }
                 else
                 {

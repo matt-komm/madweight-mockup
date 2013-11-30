@@ -3,7 +3,8 @@
 MomentumMapper::MomentumMapper(Configuration config):
 	Module(config)
 {
-	std::string varname = config.get("variableName");
+	_inputVarName = config.get<std::string>("inputName");
+	_outputVarName = config.get<std::string>("outputName");
 }
 
 MomentumMapper::~MomentumMapper()
