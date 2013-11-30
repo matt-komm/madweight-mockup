@@ -74,6 +74,56 @@ class GenericType
             _data.map=new std::unordered_map<std::string,GenericType*>(map);
         }
 
+        operator bool()
+        {
+        	if (_type==BOOLEAN)
+        	{
+        		return *_data.boolean;
+        	}
+        	throw std::string("type is not a bool type");
+        	return false;
+        }
+
+        operator int()
+        {
+        	if (_type==INTEGER)
+        	{
+        		return *_data.integer;
+        	}
+        	throw std::string("type is not an integer type");
+        	return 0;
+        }
+
+        operator unsigned int()
+        {
+        	if (_type==UINTEGER)
+        	{
+        		return *_data.uinteger;
+        	}
+        	throw std::string("type is not a unsigned integer type");
+        	return 0;
+        }
+
+        operator double()
+        {
+        	if (_type==FLOATINGPOINT)
+        	{
+        		return *_data.floatingpoint;
+        	}
+        	throw std::string("type is not a double type");
+        	return 0;
+        }
+
+        operator std::string()
+        {
+        	if (_type==STRING)
+        	{
+        		return *_data.string;
+        	}
+        	throw std::string("type is not a std::string");
+        	return std::string("");
+        }
+
         GenericType get(std::string name)
         {
             if (_type==MAP)
@@ -87,6 +137,19 @@ class GenericType
                     throw std::string("config name '"+name+"' does not exists!");
                     return 0;
                 }
+            }
+            else
+            {
+                throw std::string("config type is not a map! Cannot use 'get' method.");
+                return 0;
+            }
+        }
+
+        GenericType get(unsigned int index)
+        {
+            if (_type==LIST)
+            {
+				return (*_data.list)[index];
             }
             else
             {
