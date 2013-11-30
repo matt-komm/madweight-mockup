@@ -4,6 +4,7 @@
 #include "MatrixElement.hpp"
 #include "Configuration.hpp"
 #include "Scalar.hpp"
+#include "LorentzVector.hpp"
 
 #include <iostream>
 
@@ -14,7 +15,7 @@ class MadGraphME:
 {
     protected:
         ME* _me;
-        Variable** _momenta;
+        LorentzVector** _momenta;
         std::vector<double*> _mlist;
         Scalar* _output;
 
@@ -23,14 +24,17 @@ class MadGraphME:
             MatrixElement(config)        {
             _me=new ME();
             _me->initProc("param_card.dat");
-            _momenta=new Variable*[_me->nexternal];
+
 
             _output=createVariable<Scalar>("weight");
-            /*
-            if (_particleNames.size()!=_me->nexternal)
+
+            _momenta=new LorentzVector*[_me->nexternal];
+            for (int iexternal = 0; iexternal < _me->nexternal; ++iexternal)
             {
-            	throw std::string("provided list of particle names do not match the ME");
-            }*/
+            	char name[15];
+            	sprintf(name,"external_%u",iexternal+1);
+            	_momenta[iexternal]=createVariable<LorentzVector>(name);
+            }
 
         }
 

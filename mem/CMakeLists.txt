@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 add_library(mw-mem SHARED
     TransferFunction.cpp
     MatrixElement.cpp
+    MomentumMapper.cpp
 )
 add_dependencies(mw-mem mw-core)
 
