@@ -16,23 +16,21 @@ class MadGraphME:
         ME* _me;
         Variable** _momenta;
         std::vector<double*> _mlist;
-        std::vector<std::string> _particleNames;
         Scalar* _output;
 
     public:
-        MadGraphME(Configuration config, std::vector<std::string> particleNames):
-            MatrixElement(config),
-            _particleNames(particleNames)
-        {
+        MadGraphME(Configuration config):
+            MatrixElement(config)        {
             _me=new ME();
             _me->initProc("param_card.dat");
             _momenta=new Variable*[_me->nexternal];
 
             _output=createVariable<Scalar>("weight");
+            /*
             if (_particleNames.size()!=_me->nexternal)
             {
             	throw std::string("provided list of particle names do not match the ME");
-            }
+            }*/
 
         }
 

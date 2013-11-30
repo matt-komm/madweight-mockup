@@ -23,7 +23,7 @@ class Variable
         Variable* _parent;
 
     public:
-        enum TYPE {SCALAR,NVECTOR};
+        enum TYPE {SCALAR,NVECTOR,LORENTZVECTOR};
 
         Variable(std::string name, Node* owner);
         virtual ~Variable();

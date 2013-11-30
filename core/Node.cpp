@@ -1,6 +1,7 @@
 #include "Node.hpp"
 #include "Scalar.hpp"
 #include "NVector.hpp"
+#include "LorentzVector.hpp"
 
 Node::Node()
 {
@@ -34,7 +35,7 @@ template<class VARIABLE> VARIABLE* Node::getOutput(std::string name)
 }
 template Scalar* Node::getOutput<Scalar>(std::string name);
 template NVector* Node::getOutput<NVector>(std::string name);
-
+template LorentzVector* Node::getOutput<LorentzVector>(std::string name);
 
 template<class VARIABLE> const VARIABLE* Node::getInput(std::string name) const
 {
@@ -50,7 +51,7 @@ template<class VARIABLE> const VARIABLE* Node::getInput(std::string name) const
 }
 template const Scalar* Node::getInput<Scalar>(std::string name) const;
 template const NVector* Node::getInput<NVector>(std::string name) const;
-
+template const LorentzVector* Node::getInput<LorentzVector>(std::string name) const;
 
 void Node::updateOutput()
 {
@@ -94,6 +95,7 @@ template<class VARIABLE> VARIABLE* Node::createVariable(std::string name)
 }
 template Scalar* Node::createVariable<Scalar>(std::string name);
 template NVector* Node::createVariable<NVector>(std::string name);
+template LorentzVector* Node::createVariable<LorentzVector>(std::string name);
 
 template<class VARIABLE> const VARIABLE* Node::getVariable(std::string name)
 {
@@ -111,6 +113,7 @@ template<class VARIABLE> const VARIABLE* Node::getVariable(std::string name)
 }
 template const Scalar* Node::getVariable<Scalar>(std::string name);
 template const NVector* Node::getVariable<NVector>(std::string name);
+template const LorentzVector* Node::getVariable<LorentzVector>(std::string name);
 
 int Node::findInputVariable(std::string name) const
 {

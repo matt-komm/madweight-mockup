@@ -1,5 +1,6 @@
 #include "Scalar.hpp"
 #include "NVector.hpp"
+#include "LorentzVector.hpp"
 #include "Node.hpp"
 #include "Graph.hpp"
 
@@ -11,6 +12,7 @@ class TestInputNode1:
     protected:
         Scalar* output;
         NVector* vectorOutput;
+        LorentzVector* lvec;
     public:
         TestInputNode1():
             Node()
@@ -18,6 +20,7 @@ class TestInputNode1:
             output = createVariable<Scalar>("const");
             vectorOutput = createVariable<NVector>("vector");
             vectorOutput->setSize(3);
+            lvec= createVariable<LorentzVector>("momenta");
 
         }
         virtual void execute()
@@ -27,6 +30,10 @@ class TestInputNode1:
             {
                 vectorOutput->value(i)=(rand()%10000)*0.01;
             }
+            lvec->value(0)=100;
+            lvec->value(1)=-10;
+            lvec->value(2)=-10;
+            lvec->value(3)=-10;
         }
 };
 
@@ -36,6 +43,7 @@ class TestInputNode2:
     protected:
         Scalar* output;
         NVector* vectorOutput;
+        LorentzVector* lvec;
     public:
         TestInputNode2():
             Node()
@@ -43,6 +51,7 @@ class TestInputNode2:
             output = createVariable<Scalar>("auto");
             vectorOutput = createVariable<NVector>("vector");
             vectorOutput->setSize(3);
+            lvec= createVariable<LorentzVector>("momenta");
         }
         virtual void execute()
         {
@@ -51,7 +60,12 @@ class TestInputNode2:
             {
                 vectorOutput->value(i)=(rand()%10000)*0.01;
             }
+            lvec->value(0)=100;
+			lvec->value(1)=10;
+			lvec->value(2)=10;
+			lvec->value(3)=10;
         }
+
 };
 
 class TestComputingNode:
@@ -89,6 +103,7 @@ int main()
     computing.connectInputAll(&input2);
     MultiplyNode* m1 = MultiplyNode::multiply(input1.getOutput<Scalar>("const"),input2.getOutput<Scalar>("auto"));
     MultiplyNode* m2 = MultiplyNode::multiply(&input1,&input2);
+    //MultiplyNode* m3 = MultiplyNode::multiply(&input1,&input2);
 
     Graph* graph = new Graph();
     graph->addNode(&input1);
