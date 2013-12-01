@@ -3,8 +3,15 @@
 MomentumMapper::MomentumMapper(Configuration config):
 	Module(config)
 {
-	_inputVarName = config.get<std::string>("inputName");
-	_outputVarName = config.get<std::string>("outputName");
+	//std::cout<<"inputName="<<config.get("inputName")<<std::endl;
+	//std::cout<<"inputName="<<_inputVarName;
+	//std::cout<<config.get("outputName").value<std::string>()<<std::endl;
+	//_mapping = config.get<std::string>("mapping");
+
+	//_outputVector=createVariable<LorentzVector>("outputName");
+
+
+
 }
 
 MomentumMapper::~MomentumMapper()

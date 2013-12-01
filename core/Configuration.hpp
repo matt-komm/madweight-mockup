@@ -38,40 +38,55 @@ class GenericType
             _data(type._data)
         {
         }
-        GenericType(bool boolean):
-            _type(BOOLEAN)
-        {
-            _data.boolean=new bool(boolean);
-        }
+
+
+
         GenericType(int integer):
             _type(INTEGER)
         {
-            _data.integer=new int(integer);
+            _data.integer=new int(0);
+            *_data.integer=integer;
         }
         GenericType(unsigned int uinteger):
             _type(UINTEGER)
         {
-            _data.uinteger=new unsigned int(uinteger);
+            _data.uinteger=new unsigned int(0);
+            *_data.uinteger=uinteger;
         }
         GenericType(double floatingpoint):
             _type(FLOATINGPOINT)
         {
-            _data.floatingpoint=new double(floatingpoint);
+            _data.floatingpoint=new double(0.0);
+            *_data.floatingpoint=floatingpoint;
         }
-        GenericType(std::string string):
-            _type(STRING)
-        {
-            _data.string=new std::string(string);
-        }
+        GenericType(const char* string):
+			_type(STRING)
+		{
+			_data.string=new std::string("");
+			*_data.string=string;
+		}
         GenericType(std::vector<GenericType*> list):
             _type(LIST)
         {
-            _data.list=new std::vector<GenericType*>(list);
+            _data.list=new std::vector<GenericType*>();
+            *_data.list=list;
         }
         GenericType(std::unordered_map<std::string,GenericType*> map):
             _type(MAP)
         {
-            _data.map=new std::unordered_map<std::string,GenericType*>(map);
+            _data.map=new std::unordered_map<std::string,GenericType*>();
+            *_data.map=map;
+        }
+
+        //this method screws things up:
+        //http://stackoverflow.com/questions/1149109/why-does-a-quoted-string-match-bool-method-signature-before-a-stdstring
+        //std::string can be casted to bool when used as method argument for an overloaded function -> use const char* & bool as arguments instead
+
+        GenericType(bool boolean):
+            _type(BOOLEAN)
+        {
+            _data.boolean=new bool(false);
+            *_data.boolean=boolean;
         }
 
         template<class TYPE> TYPE value()
@@ -105,8 +120,7 @@ class GenericType
             {
                 if (_data.map->find(name)!=_data.map->end())
                 {
-                	GenericType t = (*_data.map)[name];
-                	return t.value<TYPE>();
+                	return (*_data.map)[name]->value<TYPE>();
                 }
                 else
                 {
@@ -121,11 +135,11 @@ class GenericType
             }
         }
 
-        GenericType get(unsigned int index)
+        template<class TYPE> TYPE get(unsigned int index)
         {
             if (_type==LIST)
             {
-				return (*_data.list)[index];
+				return (*_data.list)[index]->value<TYPE>();
             }
             else
             {
