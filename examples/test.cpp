@@ -21,10 +21,13 @@ int main()
 
     MomentumMapper mapper = MomentumMapper(momentumConfig);
 
+    me.connectInput(me.getInput<LorentzVector>("external_2"),mapper.getOutput<LorentzVector>("external_1"));
+    //me.connectInputAll(&mapper);
 
     GraphViz* graph = new GraphViz();
     graph->addNode(&me);
     graph->addNode(&mapper);
+    graph->setupGraphConnections();
     graph->render("test");
 
     //graph->sort();

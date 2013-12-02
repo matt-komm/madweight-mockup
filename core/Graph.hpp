@@ -12,20 +12,29 @@ class Graph
 
     protected:
 
-        struct Leaf;
+        class Leaf;
 
-        struct Edge
+        class Edge
         {
-            std::string name;
+        	public:
+            std::string nameIn;
+            std::string nameOut;
             Node* target;
             Leaf* leaf;
+            Edge()
+            {
+            }
         };
 
-        struct Leaf
+        class Leaf
         {
+        	public:
             std::vector<Edge*> out;
             Node* owner;
             std::vector<Edge*> in;
+            Leaf()
+            {
+            }
         };
 
 

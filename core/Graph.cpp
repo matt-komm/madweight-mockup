@@ -36,10 +36,11 @@ void Graph::_setupLeaf(Leaf* leaf, Node* node)
 
             //---------------------------------------------------------------------------------------------
             //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
-            //edge->leaf=_findLeaf(edge->target);
+            edge->leaf=0;
             //---------------------------------------------------------------------------------------------
 
-            edge->name=output->getName()+"->"+children[ichild]->getName();
+            edge->nameIn=output->getName();
+            edge->nameOut=children[ichild]->getName();
             leaf->out.push_back(edge);
             //std::cout<<"out: "<<edge->name<<std::endl;
         }
@@ -54,10 +55,11 @@ void Graph::_setupLeaf(Leaf* leaf, Node* node)
 
             //---------------------------------------------------------------------------------------------
             //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
-            //edge->leaf=_findLeaf(edge->target);
+            edge->leaf=0;
             //---------------------------------------------------------------------------------------------
 
-            edge->name=input->getParent()->getName()+"->"+input->getName();
+            edge->nameIn=input->getParent()->getName();
+            edge->nameOut=input->getName();
             leaf->in.push_back(edge);
             //std::cout<<"in: "<<edge->name<<std::endl;
         }

@@ -90,6 +90,7 @@ void GraphViz::addNode(Node* node)
     char name[20];
     sprintf(name,"node %u",(unsigned int)_leafs.size());
     leaf->gnode = agnode(g, name);
+    strcpy(leaf->name,name);
     agattr(leaf->gnode,"shape","record");
     std::string slabel=createNodeRepresentation(leaf->owner);
     std::cout<<"name="<<name<<", label="<<slabel<<std::endl;
@@ -149,44 +150,34 @@ std::string GraphViz::createNodeRepresentation(Node* node)
 
 void GraphViz::render(std::string filename)
 {
-	/*
+
+	std::cout<<"render: "<<Graph::_leafs.size()<<" nodes!"<<std::endl;
     for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
     {
         Leaf* leaf = Graph::_leafs[i];
-        char name[20];
-        sprintf(name,"node %l",nodes.size());
-        Agnode_t* graphviznode = agnode(g, name);
-        agattr(graphviznode,"shape","record");
-        std::string slabel=createNodeRepresentation(leaf->owner);
-        char* label = new char[slabel.length()];
-        sprintf(label,"%s",slabel.c_str());
-        agset(graphviznode,"label",label);
-        nodes.push_back(graphviznode);
-    }
-    */
-    /*
-    for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
-    {
-        Leaf* leaf = Graph::_leafs[i];
-        for (unsigned int j = 0; j<leaf->out.size(); ++j)
+        for (unsigned int j = 0; j<leaf->in.size(); ++j)
         {
-            Edge* edge = leaf->out[j];
-            for (unsigned int k = 0; k<_leafs.size(); ++k)
+            Edge* edge = leaf->in[j];
+            std::cout<<"try to connect leaf '"<<j<<"' of node '"<<static_cast<GraphVizLeaf*>(leaf)->name<<"'"<<std::endl;
+            if (edge->leaf)
             {
-                if (_leafs[k]->owner==edge->target)
-                {
-                    Agedge_t* gedge = agedge(g,nodes[i],nodes[k]);
-                    //char* headport = new char[100];
-                    //sprintf(headport,"%s:n",edge->name.c_str());
-                    //char* tailport = new char[100];
-                    //sprintf(tailport,"%s:s",_leafs[k]->in[0].c_str());
-                    //agattr(gedge,"headport",headport);
-                    //agattr(gedge,"tailport",tailport);
-                }
+            	std::cout<<"leaf connected"<<std::endl;
+            	Agnode_t* target = (static_cast<GraphVizLeaf*>(leaf))->gnode;
+            	Agnode_t* source = (static_cast<GraphVizLeaf*>(edge->leaf))->gnode;
+
+				Agedge_t* gedge = agedge(g,source,target);
+
+				char* headport = new char[100];
+				sprintf(headport,"%s:n",edge->nameOut.c_str());
+				char* tailport = new char[100];
+				sprintf(tailport,"%s:s",edge->nameIn.c_str());
+				agattr(gedge,"headport",headport);
+				agattr(gedge,"tailport",tailport);
+
             }
         }
     }
-    */
+
     //agedge(g,nodes[0],nodes[1]);
     gvLayout (gvc, g, "dot");
     //point pos = agget(nodes[0],"point");
