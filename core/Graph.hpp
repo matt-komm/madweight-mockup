@@ -34,6 +34,7 @@ class Graph
         std::vector<Node*> _sortedNodes;
         virtual void _setupLeaf(Leaf* leaf, Node* node);
         Graph::Leaf* _findLeaf(Node* node);
+
     public:
         Graph();
         virtual ~Graph();
@@ -41,6 +42,7 @@ class Graph
         virtual std::vector<Node*> getSortedList();
         virtual void executeAll();
         virtual void addNode(Node* node);
+        virtual void setupGraphConnections();
 };
 
 #endif

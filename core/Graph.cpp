@@ -36,7 +36,7 @@ void Graph::_setupLeaf(Leaf* leaf, Node* node)
 
             //---------------------------------------------------------------------------------------------
             //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
-            edge->leaf=_findLeaf(edge->target);
+            //edge->leaf=_findLeaf(edge->target);
             //---------------------------------------------------------------------------------------------
 
             edge->name=output->getName()+"->"+children[ichild]->getName();
@@ -54,7 +54,7 @@ void Graph::_setupLeaf(Leaf* leaf, Node* node)
 
             //---------------------------------------------------------------------------------------------
             //WARNING: already existing Leafs with a connection to this one are unaware of the connection!!!
-            edge->leaf=_findLeaf(edge->target);
+            //edge->leaf=_findLeaf(edge->target);
             //---------------------------------------------------------------------------------------------
 
             edge->name=input->getParent()->getName()+"->"+input->getName();
@@ -76,8 +76,27 @@ Graph::Leaf* Graph::_findLeaf(Node* node)
     return 0;
 }
 
+void Graph::setupGraphConnections()
+{
+	for (unsigned int ileaf=0; ileaf<_leafs.size();++ileaf)
+	{
+		Leaf* leaf = _leafs[ileaf];
+		for (unsigned int iedge=0; iedge<leaf->out.size(); ++iedge)
+		{
+			Edge* edge = leaf->out[iedge];
+			edge->leaf=this->_findLeaf(edge->target);
+		}
+		for (unsigned int iedge=0; iedge<leaf->in.size(); ++iedge)
+		{
+			Edge* edge = leaf->in[iedge];
+			edge->leaf=this->_findLeaf(edge->target);
+		}
+	}
+}
+
 void Graph::sort()
 {
+
     std::vector<Leaf*> sorted;
     std::vector<Leaf*> _noIncommingEdges;
     std::vector<Leaf*> rest;

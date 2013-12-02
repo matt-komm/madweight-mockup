@@ -14,11 +14,15 @@ class MomentumMapper:
     protected:
 		std::string _inputVarName;
 		std::string _outputVarName;
-		std::string _mapping;
 
-		//LorentzVector* _outputVector;
+		enum MappingType
+		{
+			PTETAPHI
+		};
+		MappingType _mapping;
 
-		//std::unordered_map<std::string, Scalar*> _inputMap;
+		LorentzVector* _outputVector;
+		std::unordered_map<std::string, const Scalar*> _inputMap;
     public:
 		MomentumMapper(Configuration config);
         virtual ~MomentumMapper();

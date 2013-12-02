@@ -110,6 +110,7 @@ int main()
     graph->addNode(&input2);
     graph->addNode(m1);
     graph->addNode(m2);
+    graph->setupGraphConnections();
     graph->sort();
     graph->executeAll();
 

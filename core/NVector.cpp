@@ -1,11 +1,14 @@
 #include "NVector.hpp"
 
-NVector::NVector(std::string name, Node* owner):
+NVector::NVector(std::string name, Node* owner, unsigned int size):
     Variable(name,owner),
-    _size(1)
+    _size(size)
 {
-    _values=new double*[1];
-    _values[0]=new double(0);
+    _values=new double*[size];
+    for (unsigned int i=0; i<size; ++i)
+    {
+    	_values[i]=new double(0);
+    }
 }
 
 NVector::~NVector()

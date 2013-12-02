@@ -9,6 +9,8 @@
 class LorentzVector:
     public NVector
 {
+	protected:
+		double& _px,_py,_pz,_e; //convenience
 
     public:
         LorentzVector(std::string name, Node* owner);
@@ -23,6 +25,8 @@ class LorentzVector:
         {
             return Variable::LORENTZVECTOR;
         }
+
+        virtual void setPtEtaPhiMass(double pt, double eta, double phi, double mass);
 
 };
 

@@ -79,8 +79,8 @@ class GenericType
         }
 
         //this method screws things up:
-        //http://stackoverflow.com/questions/1149109/why-does-a-quoted-string-match-bool-method-signature-before-a-stdstring
-        //std::string can be casted to bool when used as method argument for an overloaded function -> use const char* & bool as arguments instead
+        //http://stackoverflow.com/questions/1636181/function-method-overloading-c-data-type-confusion
+        //std::string can be casted to char* and then to bool when used as method argument for an overloaded function -> use const char* & bool as arguments instead
 
         GenericType(bool boolean):
             _type(BOOLEAN)

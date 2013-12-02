@@ -14,7 +14,7 @@ class NVector:
         double** _values;
 
     public:
-        NVector(std::string name, Node* owner);
+        NVector(std::string name, Node* owner, unsigned int size=1);
         virtual ~NVector();
 
         virtual Variable* clone(Node* owner);

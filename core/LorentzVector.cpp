@@ -1,11 +1,14 @@
 #include "LorentzVector.hpp"
 #include <iostream>
+#include <cmath>
 
 LorentzVector::LorentzVector(std::string name, Node* owner):
-    NVector(name,owner)
-
+    NVector(name,owner,4),
+    _px(*_values[1]),
+	_py(*_values[2]),
+	_pz(*_values[3]),
+	_e(*_values[0])
 {
-	NVector::setSize(4);
 }
 
 LorentzVector::~LorentzVector()
@@ -22,6 +25,14 @@ Variable* LorentzVector::clone(Node* owner)
 	lorentzVector->value(3)=this->value(3);
     //std::cout<<scalar<<" is clone of "<<this<<std::endl;
     return lorentzVector;
+}
+
+void LorentzVector::setPtEtaPhiMass(double pt, double eta, double phi, double mass)
+{
+	_px = pt*cos(phi);
+	_py = pt*sin(phi);
+	_pz = pt*sinh(eta);
+	_e = sqrt(_px*_px+_py*_py+_pz*_pz+mass*mass);
 }
 
 OpVariableInterface* LorentzVector::createMultiplication(std::string name, Node* owner, const Variable* variable) const

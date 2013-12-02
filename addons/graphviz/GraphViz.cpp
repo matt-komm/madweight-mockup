@@ -84,17 +84,18 @@ GraphViz::~GraphViz()
 
 void GraphViz::addNode(Node* node)
 {
-    //std::cout<<"adding node"<<std::endl;
+    std::cout<<"adding node"<<std::endl;
     GraphVizLeaf* leaf = new GraphVizLeaf();
     Graph::_setupLeaf(leaf,node);
     char name[20];
-    //sprintf(name,"node %u",_leafs.size());
+    sprintf(name,"node %u",(unsigned int)_leafs.size());
     leaf->gnode = agnode(g, name);
-    agattr(leaf->gnode,strtochar("shape"),strtochar("record"));
+    agattr(leaf->gnode,"shape","record");
     std::string slabel=createNodeRepresentation(leaf->owner);
-    char* label = new char[slabel.length()];
+    std::cout<<"name="<<name<<", label="<<slabel<<std::endl;
+    char* label = new char[slabel.length()+1];
     sprintf(label,"%s",slabel.c_str());
-    agset(leaf->gnode,strtochar("label"),label);
+    agset(leaf->gnode,"label",label);
 
     _leafs.push_back(leaf);
 }
@@ -148,12 +149,12 @@ std::string GraphViz::createNodeRepresentation(Node* node)
 
 void GraphViz::render(std::string filename)
 {
-    /*
+	/*
     for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
     {
         Leaf* leaf = Graph::_leafs[i];
         char name[20];
-        sprintf(name,"node %i",nodes.size());
+        sprintf(name,"node %l",nodes.size());
         Agnode_t* graphviznode = agnode(g, name);
         agattr(graphviznode,"shape","record");
         std::string slabel=createNodeRepresentation(leaf->owner);
@@ -162,6 +163,8 @@ void GraphViz::render(std::string filename)
         agset(graphviznode,"label",label);
         nodes.push_back(graphviznode);
     }
+    */
+    /*
     for (unsigned int i = 0; i< Graph::_leafs.size(); ++i)
     {
         Leaf* leaf = Graph::_leafs[i];
