@@ -15,7 +15,7 @@ class MadGraphME:
 {
     protected:
         ME* _me;
-        LorentzVector** _momenta;
+        std::vector<const LorentzVector*> _momenta;
         std::vector<double*> _mlist;
         Scalar* _output;
 
@@ -28,12 +28,12 @@ class MadGraphME:
 
             _output=createVariable<Scalar>("weight");
 
-            _momenta=new LorentzVector*[_me->nexternal];
+
             for (int iexternal = 0; iexternal < _me->nexternal; ++iexternal)
             {
             	char name[15];
             	sprintf(name,"external_%u",iexternal+1);
-            	_momenta[iexternal]=createVariable<LorentzVector>(name);
+            	_momenta.push_back(getVariable<LorentzVector>(name));
             }
 
         }
