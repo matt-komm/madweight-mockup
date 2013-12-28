@@ -25,8 +25,8 @@ if(BUILD_WITH_COVERAGE)
 endif(BUILD_WITH_COVERAGE)
 
 add_subdirectory(external)
-
 add_subdirectory(core)
+add_subdirectory(plugins)
 add_subdirectory(mem)
 add_subdirectory(addons)
 add_subdirectory(examples)
