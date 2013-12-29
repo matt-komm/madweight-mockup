@@ -4,6 +4,8 @@
 #include "Plugin.hpp"
 #include "PluginFactory.hpp"
 
+#include <iostream>
+
 class TestPlugin:
 	public Module
 {
@@ -30,8 +32,14 @@ class TestPlugin:
 		}
 };
 
-void initialize()
+extern "C"
 {
-	static ModuleProducer<TestPlugin> _testplugin("TestPlugin");
-	PluginFactory<Module>::getInstance()->registerPlugin(&_testplugin);
+	void initialize()
+	{
+		//std::cout<<"hello lib"<<std::endl;
+
+		static ModuleProducer<TestPlugin> _testplugin("TestPlugin");
+		PluginFactory<Module>::getInstance()->registerPlugin(&_testplugin);
+
+	}
 }

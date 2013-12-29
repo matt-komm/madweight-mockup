@@ -24,9 +24,19 @@ class PluginFactory
 			return &factory;
 		}
 		
+		std::vector<std::string> getRegisteredPlugins()
+		{
+			std::vector<std::string> list;
+			for ( auto it = _producers.begin(); it!= _producers.end(); ++it )
+			{
+				list.push_back(it->first);
+			}
+			return list;
+		}
+
         void registerPlugin(const Producer<PRODUCT>* producer)
 		{
-			if (_producers.find(producer->getName())!=_producers.end())
+			if (_producers.find(producer->getName())==_producers.end())
 			{
 				_producers[producer->getName()]=producer;
 			}
@@ -35,7 +45,6 @@ class PluginFactory
 				throw std::string("plugin with name '"+producer->getName()+"' already loaded");
 			}
 		}
-
 
 		const PRODUCT* createPlugin(std::string name, Configuration conf)
 		{
