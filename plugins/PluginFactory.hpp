@@ -13,9 +13,10 @@ class PluginFactory
 {
 	protected:
 		std::unordered_map<std::string, const Producer<PRODUCT>*> _producers;
-		static LibraryLoader libLoader;
+		LibraryLoader _libLoader;
 
-		PluginFactory()
+		PluginFactory():
+			_libLoader()
 		{
 
 		}
@@ -59,15 +60,12 @@ class PluginFactory
 				throw std::string("plugin with name '"+name+"' not found");
 			}
 		}
-		/*
+
 		void loadPluginsFromFile(std::string file)
 		{
-			//todo load plugins from libraries and execute init function
-			// init function should then call 'registerPlugin'
-
-
+			_libLoader.loadLibrary(file);
 		}
-		*/
+
         ~PluginFactory()
         {
 

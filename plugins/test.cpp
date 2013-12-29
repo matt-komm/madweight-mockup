@@ -7,10 +7,9 @@
 
 int main()
 {
-	LibraryLoader l;
 	try
 	{
-		l.loadLibrary("libtestplugin.so");
+		PluginFactory<Module>::getInstance()->loadPluginsFromFile("libtestplugin.so");
 	} catch (std::string e) {
 		std::cout<<e<<std::endl;
 	}
