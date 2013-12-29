@@ -1,7 +1,7 @@
 #ifndef __LINUXLIBRARYLOADER_H__
 #define __LINUXLIBRARYLOADER_H__
 
-#include "LibraryLoader.hpp"
+#include "AbstractLibraryLoader.hpp"
 
 #include <string>
 #include <unordered_map>

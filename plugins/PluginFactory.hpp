@@ -2,6 +2,7 @@
 #define __PLUGINFACTORY_H__
 
 #include "Plugin.hpp"
+#include "LibraryLoader.hpp"
 
 #include <vector>
 #include <unordered_map>
@@ -12,6 +13,7 @@ class PluginFactory
 {
 	protected:
 		std::unordered_map<std::string, const Producer<PRODUCT>*> _producers;
+		static LibraryLoader libLoader;
 
 		PluginFactory()
 		{
