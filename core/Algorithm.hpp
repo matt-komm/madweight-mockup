@@ -3,6 +3,7 @@
 
 #include "Node.hpp"
 #include "Job.hpp"
+#include "Configuration.hpp"
 
 #include <string>
 #include <unordered_map>
@@ -12,7 +13,7 @@ class Algorithm:
 {
     protected:
     public:
-        Algorithm(std::string name);
+        Algorithm(Configuration conf);
         virtual ~Algorithm();
 };
 

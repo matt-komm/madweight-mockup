@@ -2,16 +2,16 @@
 #define __JOB_H__
 
 #include "JobFactory.hpp"
+#include "Configuration.hpp"
 
 #include <string>
 
 class Job
 {
     protected:
-        std::string _name;
         bool _enable;
     public:
-        Job(std::string name);
+        Job(Configuration conf);
         ~Job();
         virtual void execute()=0;
         void enable(bool enabled);

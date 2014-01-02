@@ -1,7 +1,8 @@
 #include "VAMPIntegrator.hpp"
+
 #include <cmath>
-VAMPIntegrator::VAMPIntegrator(std::string name):
-    Algorithm(name)
+VAMPIntegrator::VAMPIntegrator(Configuration conf):
+    Algorithm(conf)
 {
 }
 

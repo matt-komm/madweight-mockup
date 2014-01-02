@@ -3,6 +3,7 @@
 
 #include "defs.hpp"
 #include "Algorithm.hpp"
+#include "Configuration.hpp"
 
 #include <iostream>
 
@@ -22,7 +23,7 @@ class VAMPIntegrator:
 {
     protected:
     public:
-        VAMPIntegrator(std::string name);
+        VAMPIntegrator(Configuration conf);
         ~VAMPIntegrator();
         
         virtual void execute();

@@ -1,7 +1,6 @@
 #include "Job.hpp"
 
-Job::Job(std::string name):
-    _name(name),
+Job::Job(Configuration conf):
     _enable(true)
 {
     JobFactory::getInstance()->registerJob(this);
