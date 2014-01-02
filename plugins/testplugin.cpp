@@ -32,6 +32,8 @@ class TestPlugin:
 		}
 };
 
+PLUGIN_INIT(Module,TestPlugin)
+/*
 extern "C"
 {
 	void initialize()
@@ -43,3 +45,4 @@ extern "C"
 
 	}
 }
+*/

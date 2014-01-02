@@ -14,5 +14,16 @@ typedef LinuxLibraryLoader LibraryLoader;
 #error "no suited library loader found or system not regonized"
 #endif
 
+#define PLUGIN_INIT(BASECLASS,MODULENAME) \
+	extern "C" \
+	{ \
+		void initialize() \
+		{ \
+			static ModuleProducer<MODULENAME>  _ ## MODULENAME ## plugin(#MODULENAME); \
+			PluginFactory<BASECLASS>::getInstance()->registerPlugin(&_ ## MODULENAME ## plugin); \
+		} \
+	} \
+
+
 #endif
 
