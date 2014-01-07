@@ -4,7 +4,7 @@ cmake_minimum_required (VERSION 2.6)
 project (madweight-mockup)
 
 
-set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x")
+set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x" -lm)
 
 OPTION(BUILD_WITH_COVERAGE "Build with coverage analysis support" OFF)
 if(BUILD_WITH_COVERAGE)
