@@ -102,9 +102,7 @@
 %pythoncode
 %{
     import types
-    Node.createVariable={}
-    setattr(Node.createVariable,"Scalar",types.MethodType(Node_createScalar, None, Node))
-    #Node.getVariable={}
-    #Node.getVariable.Scalar=types.MethodType(Node_getScalar, None, Node)
+    setattr(Node,"createVariable_Scalar",types.MethodType(Node_createScalar, None, Node))
+    setattr(Node,"getVariable_Scalar",types.MethodType(Node_getScalar, None, Node))
 %}
 
