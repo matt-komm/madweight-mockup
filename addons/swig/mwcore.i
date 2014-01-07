@@ -42,6 +42,35 @@
 
 
 %include "Configuration.hpp"
+%inline
+%{
+    Configuration strToConf(const char* str)
+    {
+        return Configuration(str);
+    }
+    Configuration intToConf(int i)
+    {
+        return Configuration(i);
+    }
+    int confToInt(Configuration conf)
+    {
+        return conf.value<int>();
+    }
+    Configuration uintToConf(unsigned int i)
+    {
+        return Configuration(i);
+    }
+    Configuration boolToConf(bool b)
+    {
+        return Configuration(b);
+    }
+    Configuration doubleToConf(double d)
+    {
+        return Configuration(d);
+    }
+%}
+
+
 
 %include "Graph.hpp"
 
@@ -73,7 +102,9 @@
 %pythoncode
 %{
     import types
-    Node.createScalar=types.MethodType(Node_createScalar, None, Node)
-    Node.getScalar=types.MethodType(Node_getScalar, None, Node)
+    Node.createVariable={}
+    setattr(Node.createVariable,"Scalar",types.MethodType(Node_createScalar, None, Node))
+    #Node.getVariable={}
+    #Node.getVariable.Scalar=types.MethodType(Node_getScalar, None, Node)
 %}
 

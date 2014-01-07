@@ -64,6 +64,7 @@ class Configuration
 			_data.string=new std::string("");
 			*_data.string=string;
 		}
+
         Configuration(std::vector<Configuration*> list):
             _type(LIST)
         {
@@ -80,6 +81,7 @@ class Configuration
         //this method screws things up:
         //http://stackoverflow.com/questions/1636181/function-method-overloading-c-data-type-confusion
         //std::string can be casted to char* and then to bool when used as method argument for an overloaded function -> use const char* & bool as arguments instead
+
 
         Configuration(bool boolean):
             _type(BOOLEAN)
