@@ -23,15 +23,39 @@
 
 %module(directors="1") mwcore
 %{
+    #include "Configuration.hpp"
+    
+    #include "Graph.hpp"
+
+    #include "Job.hpp"
+    #include "JobFactory.hpp"
+    #include "Algorithm.hpp"
+    
     #include "Node.hpp"
+    #include "Module.hpp"
+    
     #include "Variable.hpp"
     #include "Scalar.hpp"
+    #include "NVector.hpp"
+    #include "LorentzVector.hpp"
 %}
 
+
+%include "Configuration.hpp"
+
+%include "Graph.hpp"
+
+%include "Job.hpp"
+%include "JobFactory.hpp"
+%include "Algorithm.hpp"
+
 %include "Node.hpp"
+%include "Module.hpp"
+
 %include "Variable.hpp"
 %include "Scalar.hpp"
-
+%include "NVector.hpp"
+%include "LorentzVector.hpp"
 
 %inline 
 %{

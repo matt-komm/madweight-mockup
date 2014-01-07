@@ -4,7 +4,7 @@ cmake_minimum_required (VERSION 2.6)
 project (madweight-mockup)
 
 
-set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x" -lm)
+set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x")
 
 OPTION(BUILD_WITH_COVERAGE "Build with coverage analysis support" OFF)
 if(BUILD_WITH_COVERAGE)
@@ -13,6 +13,7 @@ if(BUILD_WITH_COVERAGE)
         set(CMAKE_C_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
         set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage -lgcov")
+        #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fprofile-arcs -ftest-coverage -lgcov")
         add_custom_target(generatecoverage COMMAND ${CMAKE_CURRENT_BINARY_DIR}/core/test-core)
         add_dependencies(generatecoverage test-core)
         add_custom_target(createcoverage COMMAND lcov -d ${CMAKE_CURRENT_BINARY_DIR}/core -c -o ${CMAKE_CURRENT_BINARY_DIR}/coverage.info)

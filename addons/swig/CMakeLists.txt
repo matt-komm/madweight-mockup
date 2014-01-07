@@ -13,6 +13,7 @@ if (ENABLE_SWIG)
 endif (ENABLE_SWIG)
 
 if (ENABLE_SWIG)
+    set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
     include(${SWIG_USE_FILE})
     include_directories(${PYTHON_INCLUDE_PATH})
     include_directories(${PROJECT_SOURCE_DIR}/addons/swig ${PROJECT_SOURCE_DIR}/core)

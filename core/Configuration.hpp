@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 
-class GenericType
+
+class Configuration
 {
     protected:
         union Data
@@ -15,8 +16,8 @@ class GenericType
             unsigned int* uinteger;
             double* floatingpoint;
             std::string* string;
-            std::vector<GenericType*>* list;
-            std::unordered_map<std::string, GenericType*>* map;
+            std::vector<Configuration*>* list;
+            std::unordered_map<std::string, Configuration*>* map;
         };
         enum TYPE
         {
@@ -27,54 +28,52 @@ class GenericType
         TYPE _type;
         Data _data;
     public:
-        static GenericType& createEmpty()
+        static Configuration& createEmpty()
     	{
-        	GenericType* gt = new GenericType(std::unordered_map<std::string,GenericType*>());
+        	Configuration* gt = new Configuration(std::unordered_map<std::string,Configuration*>());
         	return *gt;
     	}
 
-        GenericType(const GenericType& type):
+        Configuration(const Configuration& type):
             _type(type._type),
             _data(type._data)
         {
         }
 
-
-
-        GenericType(int integer):
+        Configuration(int integer):
             _type(INTEGER)
         {
             _data.integer=new int(0);
             *_data.integer=integer;
         }
-        GenericType(unsigned int uinteger):
+        Configuration(unsigned int uinteger):
             _type(UINTEGER)
         {
             _data.uinteger=new unsigned int(0);
             *_data.uinteger=uinteger;
         }
-        GenericType(double floatingpoint):
+        Configuration(double floatingpoint):
             _type(FLOATINGPOINT)
         {
             _data.floatingpoint=new double(0.0);
             *_data.floatingpoint=floatingpoint;
         }
-        GenericType(const char* string):
+        Configuration(const char* string):
 			_type(STRING)
 		{
 			_data.string=new std::string("");
 			*_data.string=string;
 		}
-        GenericType(std::vector<GenericType*> list):
+        Configuration(std::vector<Configuration*> list):
             _type(LIST)
         {
-            _data.list=new std::vector<GenericType*>();
+            _data.list=new std::vector<Configuration*>();
             *_data.list=list;
         }
-        GenericType(std::unordered_map<std::string,GenericType*> map):
+        Configuration(std::unordered_map<std::string,Configuration*> map):
             _type(MAP)
         {
-            _data.map=new std::unordered_map<std::string,GenericType*>();
+            _data.map=new std::unordered_map<std::string,Configuration*>();
             *_data.map=map;
         }
 
@@ -82,7 +81,7 @@ class GenericType
         //http://stackoverflow.com/questions/1636181/function-method-overloading-c-data-type-confusion
         //std::string can be casted to char* and then to bool when used as method argument for an overloaded function -> use const char* & bool as arguments instead
 
-        GenericType(bool boolean):
+        Configuration(bool boolean):
             _type(BOOLEAN)
         {
             _data.boolean=new bool(false);
@@ -148,11 +147,11 @@ class GenericType
             }
         }
 
-        void insert(GenericType type)
+        void insert(Configuration type)
         {
             if (_type==LIST)
             {
-                _data.list->push_back(new GenericType(type));
+                _data.list->push_back(new Configuration(type));
             }
             else
             {
@@ -160,7 +159,7 @@ class GenericType
             }
         }
 
-        void insert(std::string name, GenericType type)
+        void insert(std::string name, Configuration type)
         {
             if (_type==MAP)
             {
@@ -168,7 +167,7 @@ class GenericType
                 {
                     delete (*_data.map)[name];
                 }
-                (*_data.map)[name]=new GenericType(type);
+                (*_data.map)[name]=new Configuration(type);
             }
             else
             {
@@ -204,7 +203,7 @@ class GenericType
         }
 };
 
-typedef GenericType Configuration;
+//typedef GenericType Configuration;
 
 #endif
 
