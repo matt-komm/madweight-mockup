@@ -52,10 +52,6 @@
     {
         return Configuration(i);
     }
-    int confToInt(Configuration conf)
-    {
-        return conf.value<int>();
-    }
     Configuration uintToConf(unsigned int i)
     {
         return Configuration(i);
@@ -68,6 +64,39 @@
     {
         return Configuration(d);
     }
+%}
+
+%pythoncode
+%{
+    import types
+    
+    def convertPyToConfiguration(self,obj):
+        if type(obj) is types.StringType:
+            return strToConf(obj)
+        elif type(obj) is types.BooleanType:
+            return boolToConf(obj)
+        elif type(obj) is types.IntType:
+            return intToConf(obj)
+        elif type(obj) is types.LongType:
+            return uintToConf(obj)
+        elif type(obj) is types.FloatType:
+            return doubleToConf(obj)
+        elif type(obj) is types.ListType:
+            for element in obj:
+                pass
+            #listToConf(obj)
+        elif type(obj) is types.DictType:
+            for key in obj.keys():
+                pass
+            #dictToConf(obj)
+        else:
+            return obj
+             
+    #this will call the original class method and convert the PyObjects to Configuration
+    def Configuration_insert(self,name,obj):
+        self.insert(name,convertPyToConfiguration(obj))
+    
+    setattr(Configuration,"insert",types.MethodType(Configuration_insert, None, Configuration))
 %}
 
 
