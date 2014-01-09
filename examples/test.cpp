@@ -9,7 +9,7 @@ int main()
 {
 
     Configuration meConfig = Configuration::createEmptyDict();
-    meConfig.insert("name","test");
+    meConfig.insertDictEntry("name","test");
 
     std::cout<<meConfig.get<std::string>("name")<<std::endl;
     MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j> me=MadGraphME<P0_Sigma_sm_gg_gg_qcd_2j>(meConfig);
