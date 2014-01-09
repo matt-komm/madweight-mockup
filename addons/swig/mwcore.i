@@ -15,6 +15,9 @@
 %exception {
    try {
       $action
+   } catch (std::string &e) {
+      PyErr_SetString(PyExc_RuntimeError, e.c_str());
+      return NULL;
    } catch (std::exception &e) {
       PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(e.what()));
       return NULL;
@@ -41,6 +44,9 @@
 %}
 
 
+%rename(insertDictEntryConfiguration) Configuration::insertDictEntry(std::string,Configuration);
+%rename(insertListEntryConfiguration) Configuration::insertListEntry(Configuration);
+
 %include "Configuration.hpp"
 %inline
 %{
@@ -66,11 +72,13 @@
     }
 %}
 
+
+
 %pythoncode
 %{
     import types
     
-    def convertPyToConfiguration(self,obj):
+    def convertPyToConfiguration(obj):
         if type(obj) is types.StringType:
             return strToConf(obj)
         elif type(obj) is types.BooleanType:
@@ -82,20 +90,26 @@
         elif type(obj) is types.FloatType:
             return doubleToConf(obj)
         elif type(obj) is types.ListType:
+            conf = Configuration.createEmptyList()
             for element in obj:
-                pass
-            #listToConf(obj)
+                conf.insert(element)
+            return conf
         elif type(obj) is types.DictType:
+            conf = Configuration.createEmptyDict()
             for key in obj.keys():
-                pass
-            #dictToConf(obj)
+                conf.insert(key,obj[key])
+            return conf
         else:
             return obj
              
-    #this will call the original class method and convert the PyObjects to Configuration
-    def Configuration_insert(self,name,obj):
-        self.insert(name,convertPyToConfiguration(obj))
-    
+    def Configuration_insert(self,*args, **kwargs):
+        if (len(args)==1):
+            self.insertListEntryConfiguration(convertPyToConfiguration(args[0]))
+        elif (len(args)==2):
+            self.insertDictEntryConfiguration(args[0],convertPyToConfiguration(args[1]))
+        else:
+            raise Exception("too many arguments")
+        
     setattr(Configuration,"insert",types.MethodType(Configuration_insert, None, Configuration))
 %}
 

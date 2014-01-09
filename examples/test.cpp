@@ -8,7 +8,7 @@
 int main()
 {
 
-    Configuration meConfig = Configuration::createEmpty();
+    Configuration meConfig = Configuration::createEmptyDict();
     meConfig.insert("name","test");
 
     std::cout<<meConfig.get<std::string>("name")<<std::endl;

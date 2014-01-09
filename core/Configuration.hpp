@@ -21,18 +21,23 @@ class Configuration
         };
         enum TYPE
         {
-            BOOLEAN, INTEGER, UINTEGER, FLOATINGPOINT, STRING, LIST, MAP
+            NONE, BOOLEAN, INTEGER, UINTEGER, FLOATINGPOINT, STRING, LIST, MAP
         };
 
 
         TYPE _type;
         Data _data;
     public:
-        static Configuration& createEmpty()
+        static Configuration& createEmptyDict()
     	{
         	Configuration* gt = new Configuration(std::unordered_map<std::string,Configuration*>());
         	return *gt;
     	}
+        static Configuration& createEmptyList()
+		{
+			Configuration* gt = new Configuration(std::vector<Configuration*>());
+			return *gt;
+		}
 
         Configuration(const Configuration& type):
             _type(type._type),
@@ -40,6 +45,11 @@ class Configuration
         {
         }
 
+
+        Configuration():
+			_type(NONE)
+		{
+		}
         Configuration(int integer):
             _type(INTEGER)
         {
@@ -112,6 +122,10 @@ class Configuration
 			{
 				return *(TYPE*)(_data.string);
 			}
+        	else if (_type==NONE)
+        	{
+        		return nullptr;
+        	}
         	return *(TYPE*)this;
         }
 
@@ -149,7 +163,7 @@ class Configuration
             }
         }
 
-        void insert(Configuration type)
+        void insertListEntry(Configuration type)
         {
             if (_type==LIST)
             {
@@ -161,7 +175,7 @@ class Configuration
             }
         }
 
-        void insert(std::string name, Configuration type)
+        void insertDictEntry(std::string name, Configuration type)
         {
             if (_type==MAP)
             {
