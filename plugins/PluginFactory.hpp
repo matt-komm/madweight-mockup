@@ -14,62 +14,14 @@ class PluginFactory
 	protected:
 		std::unordered_map<std::string, const Producer<PRODUCT>*> _producers;
 		LibraryLoader _libLoader;
-
-		PluginFactory():
-			_libLoader()
-		{
-
-		}
+		PluginFactory();
     public:
-		static PluginFactory<PRODUCT>* getInstance()
-		{
-			static PluginFactory<PRODUCT> factory;
-			return &factory;
-		}
-		
-		std::vector<std::string> getRegisteredPlugins()
-		{
-			std::vector<std::string> list;
-			for ( auto it = _producers.begin(); it!= _producers.end(); ++it )
-			{
-				list.push_back(it->first);
-			}
-			return list;
-		}
-
-        void registerPlugin(const Producer<PRODUCT>* producer)
-		{
-			if (_producers.find(producer->getName())==_producers.end())
-			{
-				_producers[producer->getName()]=producer;
-			}
-			else
-			{
-				throw std::string("plugin with name '"+producer->getName()+"' already loaded");
-			}
-		}
-
-		const PRODUCT* createPlugin(std::string name, Configuration conf)
-		{
-			if (_producers.find(name)!=_producers.end())
-			{
-				return _producers[name].create(conf);
-			}
-			else
-			{
-				throw std::string("plugin with name '"+name+"' not found");
-			}
-		}
-
-		void loadPluginsFromFile(std::string file)
-		{
-			_libLoader.loadLibrary(file);
-		}
-
-        ~PluginFactory()
-        {
-
-        }
+		static PluginFactory<PRODUCT>* getInstance();
+		std::vector<std::string> getRegisteredPlugins();
+        void registerPlugin(const Producer<PRODUCT>* producer);
+		const PRODUCT* createPlugin(std::string name, Configuration conf);
+		void loadPluginsFromFile(std::string file);
+        ~PluginFactory();
 };
 
 #endif

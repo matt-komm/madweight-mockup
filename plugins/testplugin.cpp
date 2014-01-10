@@ -33,16 +33,3 @@ class TestPlugin:
 };
 
 PLUGIN_INIT(Module,TestPlugin)
-/*
-extern "C"
-{
-	void initialize()
-	{
-		//std::cout<<"hello lib"<<std::endl;
-
-		static ModuleProducer<TestPlugin> _testplugin("TestPlugin");
-		PluginFactory<Module>::getInstance()->registerPlugin(&_testplugin);
-
-	}
-}
-*/

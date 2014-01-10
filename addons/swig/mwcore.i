@@ -1,5 +1,3 @@
-//%module(directors="1", package="mw") core
-
 %include stl.i
 %include std_set.i
 %include std_multiset.i
