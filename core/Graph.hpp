@@ -2,6 +2,8 @@
 #define __GRAPH_H__
 
 #include "Node.hpp"
+class Algorithm;
+
 #include <unordered_map>
 #include <string>
 #include <vector>
@@ -52,6 +54,7 @@ class Graph
         virtual void executeAll();
         virtual void addNode(Node* node);
         virtual void setupGraphConnections();
+        virtual void passExternalVariables(Algorithm& algo);
 };
 
 #endif
