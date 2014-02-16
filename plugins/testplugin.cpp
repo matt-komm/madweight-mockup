@@ -32,4 +32,6 @@ class TestPlugin:
 		}
 };
 
-PLUGIN_INIT(Module,TestPlugin)
+INIT(
+	REGISTER_PLUGIN(Module,TestPlugin)
+)

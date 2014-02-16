@@ -124,7 +124,7 @@ class Configuration
 			}
         	else if (_type==NONE)
         	{
-        		return nullptr;
+        		return (TYPE)0;
         	}
         	return *(TYPE*)this;
         }

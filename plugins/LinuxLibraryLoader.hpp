@@ -37,7 +37,10 @@ class LinuxLibraryLoader:
 					throw std::string(dlerror());
 				}
 				_loadedLibHandles[file]=lib_handle;
-				init_function_type fn = (init_function_type)dlsym(lib_handle, "initialize");
+
+				//hides object-to-function cast from the compiler
+				SharedMemory<void*,init_function_type> smemory(dlsym(lib_handle, "initialize"));
+				init_function_type fn = smemory.get();
 				if ((error = dlerror()) != NULL)
 				{
 					throw std::string(dlerror());

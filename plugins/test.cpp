@@ -16,7 +16,7 @@ int main()
 	std::vector<std::string> loadedModules=PluginFactory<Module>::getInstance()->getRegisteredPlugins();
 	for (unsigned int i=0; i<loadedModules.size();++i)
 	{
-		std::cout<<loadedModules[i]<<std::endl;
+		std::cout<<"loaded: "<<loadedModules[i]<<std::endl;
 	}
     return 0;
 }
