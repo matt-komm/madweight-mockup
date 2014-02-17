@@ -154,7 +154,15 @@ class Configuration
         {
             if (_type==LIST)
             {
-				return (*_data.list)[index]->value<TYPE>();
+                if (index<this->size())
+                {
+				    return (*_data.list)[index]->value<TYPE>();
+			    }
+			    else
+			    {
+			        throw std::string("index for config of type list is out of range");
+                    return 0;
+			    }
             }
             else
             {

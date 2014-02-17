@@ -17,6 +17,3 @@ add_library(mw-core SHARED
     JobFactory.cpp
 )
 
-add_executable(test-core test.cpp)
-target_link_libraries(test-core mw-core)
-add_dependencies(test-core mw-core)

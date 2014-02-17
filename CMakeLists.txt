@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 
 project (madweight-mockup)
 
-
+#set(CXXCOMPILEFLAGS "-std=c++0x")
 set(CXXCOMPILEFLAGS "-Wextra -Wall -pedantic -std=c++0x")
 
 MACRO(COPY_FILE_IF_CHANGED in_file out_file target)
