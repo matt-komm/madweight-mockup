@@ -13,7 +13,7 @@ if (ENABLE_TEST)
     
     include_directories(${PROJECT_SOURCE_DIR}/external/gtest/include)
 
-    macro(APPLYTEST name sourcefile)
+    macro(APPLYGTEST name sourcefile)
         add_executable(test-${name}
             ${sourcefile}
         )
@@ -21,10 +21,33 @@ if (ENABLE_TEST)
         add_test(test-${name}-gtest test-${name} --gtest_color=yes)
         #add_test(test-${name}-memtest valgrind --tool=memcheck --leak-check=summary ${CMAKE_CURRENT_BINARY_DIR}/test-${name} > /dev/null)
         add_dependencies(build_and_test test-${name})
-
-    endmacro(APPLYTEST)
+    endmacro(APPLYGTEST)
     
-    APPLYTEST(test-core test-core.cpp mw-core)
+    ##### GTESTS #####
+    APPLYGTEST(test-core test-core.cpp mw-core)
+    #####
+    
+    if (ENABLE_SWIG)
+        message("enable swig testing")
+        find_package(PythonInterp REQUIRED)
+        macro(APPLYPYTHONTEST name sourcefile dependency)
+            
+            
+            add_test(NAME test-${name} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
+            set_tests_properties(test-${name} PROPERTIES DEPENDS ${dependency})
+            file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+            #COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile} test-${name})           
+            add_dependencies(build_and_test test-${name})
+        endmacro(APPLYPYTHONTEST)
+        
+        ##### PYTHONTESTS #####
+        APPLYPYTHONTEST(swig-core test-py-core.py mwcore)
+        #####
+        
+    endif(ENABLE_SWIG)
+    
+    
+    
 
 endif(ENABLE_TEST)
 

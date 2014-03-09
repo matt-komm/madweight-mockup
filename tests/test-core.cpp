@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "Configuration.hpp"
+#include "simple_graph.hpp"
 
 TEST(Configuration, list)
 {
@@ -37,4 +38,9 @@ TEST(Configuration, list)
     //EXPECT_EQ(conf.get<Configuration>(5),0);
     
     EXPECT_THROW(conf.get<Configuration>(6),std::string);
+}
+
+TEST(Graph, simple)
+{
+    
 }

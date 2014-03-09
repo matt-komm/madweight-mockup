@@ -51,7 +51,6 @@ LHCOInput::LHCOInput(Configuration conf):
 			object.phi(),
 			object.jmass()
 		);
-
 	}
 }
 
