@@ -5,7 +5,9 @@ set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 if (ENABLE_TEST)
     enable_testing()
     add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
-
+    add_custom_target(pretest) #use for e.g. copying files before tests are run
+    add_dependencies(build_and_test pretest)
+    
     include_directories(${PROJECT_SOURCE_DIR}/core)
     include_directories(${PROJECT_SOURCE_DIR}/mem)
     include_directories(${PROJECT_SOURCE_DIR}/plugins)
@@ -31,12 +33,9 @@ if (ENABLE_TEST)
         message("enable swig testing")
         find_package(PythonInterp REQUIRED)
         macro(APPLYPYTHONTEST name sourcefile dependency)
-            
-            
             add_test(NAME test-${name} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
             set_tests_properties(test-${name} PROPERTIES DEPENDS ${dependency})
-            file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
-            #COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile} test-${name})           
+            COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile} pretest)           
             add_dependencies(build_and_test test-${name})
         endmacro(APPLYPYTHONTEST)
         

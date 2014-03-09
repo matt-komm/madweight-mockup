@@ -45,7 +45,11 @@
 %rename(insertDictEntryConfiguration) Configuration::insertDictEntry(std::string,Configuration);
 %rename(insertListEntryConfiguration) Configuration::insertListEntry(Configuration);
 
+
 %include "Configuration.hpp"
+
+%template(getString) Configuration::get<std::string>;
+
 %inline
 %{
     Configuration strToConf(const char* str)
