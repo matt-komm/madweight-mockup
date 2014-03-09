@@ -32,15 +32,15 @@ if (ENABLE_TEST)
     if (ENABLE_SWIG)
         message("enable swig testing")
         find_package(PythonInterp REQUIRED)
-        macro(APPLYPYTHONTEST name sourcefile dependency)
-            add_test(NAME test-${name} COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
+        macro(APPLYPYTHONTEST name unittestmodule dependency)
+            add_test(NAME test-${name} COMMAND ${PYTHON_EXECUTABLE} -m unittest ${unittestmodule})
             set_tests_properties(test-${name} PROPERTIES DEPENDS ${dependency})
-            COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile} pretest)           
+            COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${unittestmodule}.py ${CMAKE_CURRENT_BINARY_DIR}/${unittestmodule}.py pretest)           
             add_dependencies(build_and_test test-${name})
         endmacro(APPLYPYTHONTEST)
         
         ##### PYTHONTESTS #####
-        APPLYPYTHONTEST(swig-core test-py-core.py mwcore)
+        APPLYPYTHONTEST(swig-core test-py-core mwcore)
         #####
         
     endif(ENABLE_SWIG)
