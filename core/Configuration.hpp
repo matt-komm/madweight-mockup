@@ -1,7 +1,7 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include <string>
 #include <typeinfo>
@@ -25,7 +25,7 @@ class Configuration
             double* floatingpoint;
             std::string* string;
             std::vector<Configuration*>* list;
-            std::unordered_map<std::string, Configuration*>* map;
+            std::map<std::string, Configuration*>* map;
         };
 
         ConfigurationType::TYPE _type;
@@ -33,7 +33,7 @@ class Configuration
     public:
         static Configuration& createEmptyDict()
     	{
-        	Configuration* gt = new Configuration(std::unordered_map<std::string,Configuration*>());
+        	Configuration* gt = new Configuration(std::map<std::string,Configuration*>());
         	return *gt;
     	}
         static Configuration& createEmptyList()
@@ -84,10 +84,10 @@ class Configuration
             _data.list=new std::vector<Configuration*>();
             *_data.list=list;
         }
-        Configuration(std::unordered_map<std::string,Configuration*> map):
+        Configuration(std::map<std::string,Configuration*> map):
             _type(ConfigurationType::MAP)
         {
-            _data.map=new std::unordered_map<std::string,Configuration*>();
+            _data.map=new std::map<std::string,Configuration*>();
             *_data.map=map;
         }
 
@@ -125,12 +125,20 @@ class Configuration
 			{
 				return *(TYPE*)(_data.string);
 			}
+        	else if (_type==ConfigurationType::LIST && typeid(TYPE)==typeid(std::vector<Configuration*>))
+			{
+				return *(TYPE*)(_data.list);
+			}
+        	else if (_type==ConfigurationType::MAP && typeid(TYPE)==typeid(std::map<std::string, Configuration*>))
+			{
+				return *(TYPE*)(_data.map);
+			}
         	else if (_type==ConfigurationType::NONE)
         	{
-        		return (TYPE)0;
+        		return *(TYPE*)0;
         	}
-        	throw std::string("casting not possible or allowed");
-        	return (TYPE)0;
+        	throw std::string("casting not possible or to wrong type");
+        	return *(TYPE*)0;
         }
 
         inline ConfigurationType::TYPE getType()
@@ -188,7 +196,7 @@ class Configuration
             }
             else
             {
-                throw std::string("config type is not a list! Cannot use 'insert(GenericType*)' method.");
+                throw std::string("config type is not a list! Cannot use 'insert(Configuration)' method.");
             }
         }
 
@@ -204,7 +212,7 @@ class Configuration
             }
             else
             {
-                throw std::string("config type is not a map! Cannot use 'insert(std::string, GenericType*)' method.");
+                throw std::string("config type is not a map! Cannot use 'insert(std::string, Configuration)' method.");
             }
         }
 
@@ -228,6 +236,10 @@ class Configuration
 			{
 				return _data.list->size();
 			}
+        	else if (_type==ConfigurationType::MAP)
+			{
+				return _data.map->size();
+			}
 			else
 			{
 				throw std::string("config type is not a list! Cannot use 'size()' method.");
@@ -236,7 +248,6 @@ class Configuration
         }
 };
 
-//typedef GenericType Configuration;
 
 #endif
 

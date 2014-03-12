@@ -4,7 +4,7 @@
 #include "AbstractLibraryLoader.hpp"
 
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <dlfcn.h>
 
 class LinuxLibraryLoader:
@@ -13,7 +13,7 @@ class LinuxLibraryLoader:
     protected:
 		typedef void (*init_function_type)(void);
 
-		std::unordered_map<std::string,void*> _loadedLibHandles;
+		std::map<std::string,void*> _loadedLibHandles;
     public:
 		LinuxLibraryLoader():
 			AbstractLibraryLoader()

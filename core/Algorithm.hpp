@@ -7,7 +7,6 @@
 #include "Configuration.hpp"
 
 #include <string>
-#include <unordered_map>
 
 class Algorithm:
     public Job

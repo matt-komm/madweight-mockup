@@ -6,7 +6,7 @@
 #include "LorentzVector.hpp"
 #include "Configuration.hpp"
 
-#include <unordered_map>
+#include <map>
 
 class MomentumMapper:
 	public Module
@@ -22,7 +22,7 @@ class MomentumMapper:
 		MappingType _mapping;
 
 		LorentzVector* _outputVector;
-		std::unordered_map<std::string, const Scalar*> _inputMap;
+		std::map<std::string, const Scalar*> _inputMap;
     public:
 		MomentumMapper(Configuration config);
         virtual ~MomentumMapper();

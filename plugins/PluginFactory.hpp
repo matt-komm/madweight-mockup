@@ -5,14 +5,14 @@
 #include "LibraryLoader.hpp"
 
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <string>
 
 template<class PRODUCT>
 class PluginFactory
 {
 	protected:
-		std::unordered_map<std::string, const Producer<PRODUCT>*> _producers;
+		std::map<std::string, const Producer<PRODUCT>*> _producers;
 		LibraryLoader _libLoader;
 		PluginFactory();
     public:

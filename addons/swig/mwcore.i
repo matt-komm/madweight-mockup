@@ -54,10 +54,17 @@
 %template(valueUnsignedInteger) Configuration::value<unsigned int>;
 %template(valueBoolean) Configuration::value<bool>;
 %template(valueDouble) Configuration::value<double>;
-%template(valueConfiguration) Configuration::value<Configuration>;
+
+%template(ConfigurationList) std::vector<Configuration*>;
+%template(valueList) Configuration::value<ConfigurationList>;
+%template(ConfigurationDict) std::map<std::string, Configuration*>;
+%template(valueDict) Configuration::value<ConfigurationDict>;
 
 %inline
 %{
+    typedef std::vector<Configuration*> ConfigurationList;
+    typedef std::map<std::string, Configuration*> ConfigurationDict;
+    
     Configuration strToConf(const char* str)
     {
         return Configuration(str);
@@ -79,8 +86,6 @@
         return Configuration(d);
     }
 %}
-
-
 
 %pythoncode
 %{
@@ -133,14 +138,9 @@
         elif self.getType()==ConfigurationType.STRING:
             return self.valueString()
         elif self.getType()==ConfigurationType.LIST:
-            returnList=[]
-            for index in range(self.size()):
-                returnList.append(self.getConfiguration(index))
-            return returnList
+            return self.valueList()
         elif self.getType()==ConfigurationType.MAP:
-            ###TODO: iterating over keys is currently missing
-        
-            return {}
+            return self.valueDict()
         else:
             return None
     setattr(Configuration,"value",types.MethodType(Configuration_value, None, Configuration))
