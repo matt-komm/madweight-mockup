@@ -3,10 +3,10 @@
 MomentumMapper::MomentumMapper(Configuration config):
 	Module(config)
 {
-	_inputVarName=config.get<std::string>("inputName");
-	_outputVarName=config.get<std::string>("outputName");
+	_inputVarName=config.get("inputName").value<std::string>();
+	_outputVarName=config.get("outputName").value<std::string>();
 
-	std::string mappingName = config.get<std::string>("mapping");
+	std::string mappingName = config.get("mapping").value<std::string>();
 	if (mappingName=="PtEtaPhi")
 	{
 		_mapping=PTETAPHI;

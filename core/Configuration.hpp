@@ -4,7 +4,15 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <typeinfo>
 
+struct ConfigurationType
+{
+	enum TYPE
+	{
+		NONE, BOOLEAN, INTEGER, UINTEGER, FLOATINGPOINT, STRING, LIST, MAP
+	};
+};
 
 class Configuration
 {
@@ -19,13 +27,8 @@ class Configuration
             std::vector<Configuration*>* list;
             std::unordered_map<std::string, Configuration*>* map;
         };
-        enum TYPE
-        {
-            NONE, BOOLEAN, INTEGER, UINTEGER, FLOATINGPOINT, STRING, LIST, MAP
-        };
 
-
-        TYPE _type;
+        ConfigurationType::TYPE _type;
         Data _data;
     public:
         static Configuration& createEmptyDict()
@@ -47,42 +50,42 @@ class Configuration
 
 
         Configuration():
-			_type(NONE)
+			_type(ConfigurationType::NONE)
 		{
 		}
         Configuration(int integer):
-            _type(INTEGER)
+            _type(ConfigurationType::INTEGER)
         {
             _data.integer=new int(0);
             *_data.integer=integer;
         }
         Configuration(unsigned int uinteger):
-            _type(UINTEGER)
+            _type(ConfigurationType::UINTEGER)
         {
             _data.uinteger=new unsigned int(0);
             *_data.uinteger=uinteger;
         }
         Configuration(double floatingpoint):
-            _type(FLOATINGPOINT)
+            _type(ConfigurationType::FLOATINGPOINT)
         {
             _data.floatingpoint=new double(0.0);
             *_data.floatingpoint=floatingpoint;
         }
         Configuration(const char* string):
-			_type(STRING)
+			_type(ConfigurationType::STRING)
 		{
 			_data.string=new std::string("");
 			*_data.string=string;
 		}
 
         Configuration(std::vector<Configuration*> list):
-            _type(LIST)
+            _type(ConfigurationType::LIST)
         {
             _data.list=new std::vector<Configuration*>();
             *_data.list=list;
         }
         Configuration(std::unordered_map<std::string,Configuration*> map):
-            _type(MAP)
+            _type(ConfigurationType::MAP)
         {
             _data.map=new std::unordered_map<std::string,Configuration*>();
             *_data.map=map;
@@ -94,7 +97,7 @@ class Configuration
 
 
         Configuration(bool boolean):
-            _type(BOOLEAN)
+            _type(ConfigurationType::BOOLEAN)
         {
             _data.boolean=new bool(false);
             *_data.boolean=boolean;
@@ -102,40 +105,46 @@ class Configuration
 
         template<class TYPE> TYPE value()
         {
-        	if (_type==BOOLEAN)
+        	if (_type==ConfigurationType::BOOLEAN && typeid(TYPE)==typeid(bool))
         	{
         		return *(TYPE*)(_data.boolean);
         	}
-        	else if (_type==INTEGER)
+        	else if (_type==ConfigurationType::INTEGER && typeid(TYPE)==typeid(int))
 			{
 				return *(TYPE*)(_data.integer);
 			}
-        	else if (_type==UINTEGER)
+        	else if (_type==ConfigurationType::UINTEGER && typeid(TYPE)==typeid(unsigned int))
 			{
 				return *(TYPE*)(_data.uinteger);
 			}
-        	else if (_type==FLOATINGPOINT)
+        	else if (_type==ConfigurationType::FLOATINGPOINT && typeid(TYPE)==typeid(double))
 			{
 				return *(TYPE*)(_data.floatingpoint);
 			}
-        	else if (_type==STRING)
+        	else if (_type==ConfigurationType::STRING && typeid(TYPE)==typeid(std::string))
 			{
 				return *(TYPE*)(_data.string);
 			}
-        	else if (_type==NONE)
+        	else if (_type==ConfigurationType::NONE)
         	{
         		return (TYPE)0;
         	}
-        	return *(TYPE*)this;
+        	throw std::string("casting not possible or allowed");
+        	return (TYPE)0;
         }
 
-        template<class TYPE> TYPE get(std::string name)
+        inline ConfigurationType::TYPE getType()
         {
-            if (_type==MAP)
+        	return _type;
+        }
+
+        Configuration get(std::string name)
+        {
+            if (_type==ConfigurationType::MAP)
             {
                 if (_data.map->find(name)!=_data.map->end())
                 {
-                	return (*_data.map)[name]->value<TYPE>();
+                	return *(*_data.map)[name];
                 }
                 else
                 {
@@ -150,13 +159,13 @@ class Configuration
             }
         }
 
-        template<class TYPE> TYPE get(unsigned int index)
+        Configuration get(unsigned int index)
         {
-            if (_type==LIST)
+            if (_type==ConfigurationType::LIST)
             {
                 if (index<this->size())
                 {
-				    return (*_data.list)[index]->value<TYPE>();
+				    return *(*_data.list)[index];
 			    }
 			    else
 			    {
@@ -173,7 +182,7 @@ class Configuration
 
         void insertListEntry(Configuration type)
         {
-            if (_type==LIST)
+            if (_type==ConfigurationType::LIST)
             {
                 _data.list->push_back(new Configuration(type));
             }
@@ -185,7 +194,7 @@ class Configuration
 
         void insertDictEntry(std::string name, Configuration type)
         {
-            if (_type==MAP)
+            if (_type==ConfigurationType::MAP)
             {
                 if (_data.map->find(name)!=_data.map->end())
                 {
@@ -201,7 +210,7 @@ class Configuration
 
         bool exists(std::string name)
         {
-        	if (_type==MAP)
+        	if (_type==ConfigurationType::MAP)
 			{
 				return _data.map->find(name)!=_data.map->end();
 			}
@@ -215,7 +224,7 @@ class Configuration
 
         unsigned int size()
         {
-        	if (_type==LIST)
+        	if (_type==ConfigurationType::LIST)
 			{
 				return _data.list->size();
 			}

@@ -39,16 +39,22 @@
     #include "Scalar.hpp"
     #include "NVector.hpp"
     #include "LorentzVector.hpp"
+    
 %}
 
 
 %rename(insertDictEntryConfiguration) Configuration::insertDictEntry(std::string,Configuration);
 %rename(insertListEntryConfiguration) Configuration::insertListEntry(Configuration);
 
-
 %include "Configuration.hpp"
 
-%template(getString) Configuration::get<std::string>;
+
+%template(valueString) Configuration::value<std::string>;
+%template(valueInteger) Configuration::value<int>;
+%template(valueUnsignedInteger) Configuration::value<unsigned int>;
+%template(valueBoolean) Configuration::value<bool>;
+%template(valueDouble) Configuration::value<double>;
+%template(valueConfiguration) Configuration::value<Configuration>;
 
 %inline
 %{
@@ -111,8 +117,36 @@
             self.insertDictEntryConfiguration(args[0],convertPyToConfiguration(args[1]))
         else:
             raise Exception("too many arguments")
-        
     setattr(Configuration,"insert",types.MethodType(Configuration_insert, None, Configuration))
+    
+    def Configuration_value(self):
+        if self.getType()==ConfigurationType.NONE:
+            return None
+        elif self.getType()==ConfigurationType.BOOLEAN:
+            return self.valueBoolean()
+        elif self.getType()==ConfigurationType.INTEGER:
+            return self.valueInteger()
+        elif self.getType()==ConfigurationType.UINTEGER:
+            return self.valueUnsignedInteger()
+        elif self.getType()==ConfigurationType.FLOATINGPOINT:
+            return self.valueDouble()
+        elif self.getType()==ConfigurationType.STRING:
+            return self.valueString()
+        elif self.getType()==ConfigurationType.LIST:
+            returnList=[]
+            for index in range(self.size()):
+                returnList.append(self.getConfiguration(index))
+            return returnList
+        elif self.getType()==ConfigurationType.MAP:
+            ###TODO: iterating over keys is currently missing
+        
+            return {}
+        else:
+            return None
+    setattr(Configuration,"value",types.MethodType(Configuration_value, None, Configuration))
+    
+                
+        
 %}
 
 

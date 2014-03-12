@@ -4,12 +4,12 @@
 TransferFunction::TransferFunction(Configuration config):
     Module(config)
 {
-	std::string inputMEName = config.get<std::string>("inputME");
-	std::string inputRecoName = config.get<std::string>("inputReco");
+	std::string inputMEName = config.get("inputME").value<std::string>();
+	std::string inputRecoName = config.get("inputReco").value<std::string>();
 	std::string outputVariableName = "weight";
 	if (config.exists("output"))
 	{
-		outputVariableName = config.get<std::string>("output");
+		outputVariableName = config.get("output").value<std::string>();
 	}
 	_inputME=getVariable<Scalar>(inputMEName);
 	_inputReco=getVariable<Scalar>(inputRecoName);

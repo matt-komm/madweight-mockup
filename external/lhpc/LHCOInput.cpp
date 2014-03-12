@@ -6,10 +6,10 @@ LHCOInput::LHCOInput(Configuration conf):
 {
 	if (conf.exists("verbose"))
 	{
-		_verbose=conf.get<bool>("verbose");
+		_verbose=conf.get("verbose").value<bool>();
 	}
-	_eventNumber=conf.get<unsigned int>("eventnumber");
-	_inputFileName=conf.get<std::string>("inputfile");
+	_eventNumber=conf.get("eventnumber").value<unsigned int>();
+	_inputFileName=conf.get("inputfile").value<std::string>();
 	_parser= new LHPC::LhcoParser( _inputFileName, _verbose);
 	LHPC::LHCO::LhcoEvent const& currentEvent = _parser->getEvent();
 
