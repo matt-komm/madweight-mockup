@@ -1,10 +1,15 @@
 OPTION(ENABLE_TEST "Build tests" OFF)
+OPTION(ENABLE_VERBOSE_TEST "verbose tests" OFF)
 
 set(CMAKE_CXX_FLAGS ${CXXCOMPILEFLAGS})
 
 if (ENABLE_TEST)
     enable_testing()
-    add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
+    if (ENABLE_VERBOSE_TEST)
+        add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
+    else (ENABLE_VERBOSE_TEST)
+        add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND})
+    endif (ENABLE_VERBOSE_TEST)
     add_custom_target(pretest) #use for e.g. copying files before tests are run
     add_dependencies(build_and_test pretest)
     
@@ -30,6 +35,7 @@ if (ENABLE_TEST)
     
     ##### GTESTS #####
     APPLYGTEST(test-core test-core.cpp mw-core)
+    APPLYGTEST(test-plugins test-plugins.cpp mw-core mw-plugins)
     #####
     
     if (ENABLE_SWIG)
