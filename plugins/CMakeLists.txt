@@ -8,14 +8,4 @@ add_library(mw-plugins SHARED
 )
 add_dependencies(mw-plugins mw-core)
 
-add_library(testplugin MODULE
-    testplugin.cpp
-)
-
-target_link_libraries(testplugin mw-core mw-plugins)
-add_dependencies(testplugin mw-plugins)
-
-add_executable(test-plugins test.cpp)
-target_link_libraries(test-plugins mw-core mw-plugins dl)
-add_dependencies(test-plugins mw-plugins)
 

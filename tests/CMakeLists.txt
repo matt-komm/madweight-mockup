@@ -14,6 +14,9 @@ if (ENABLE_TEST)
     include_directories(${PROJECT_SOURCE_DIR}/tests)
     
     include_directories(${PROJECT_SOURCE_DIR}/external/gtest/include)
+    
+    add_library(sampleplugin MODULE sampleplugin.cpp)
+    target_link_libraries(sampleplugin mw-core mw-plugins)
 
     macro(APPLYGTEST name sourcefile)
         add_executable(test-${name}
@@ -40,7 +43,8 @@ if (ENABLE_TEST)
         endmacro(APPLYPYTHONTEST)
         
         ##### PYTHONTESTS #####
-        APPLYPYTHONTEST(swig-core test-py-core mwcore)
+        APPLYPYTHONTEST(swig-core testpycore mwcore)
+        APPLYPYTHONTEST(swig-plugins testpyplugins mwplugins)
         #####
         
     endif(ENABLE_SWIG)
