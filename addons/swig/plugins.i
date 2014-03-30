@@ -30,6 +30,7 @@
 
 %include "PluginFactory.hpp"
 %template(ModuleFactory) PluginFactory<Module>;
+%template(StringList) std::vector<std::string>;
 %inline
 %{
 %}

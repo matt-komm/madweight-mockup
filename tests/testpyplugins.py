@@ -11,7 +11,8 @@ class Test_Configuration(unittest.TestCase):
     def test_Configuration_dict(self):
         factory = mwplugins.ModuleFactory.getInstance()
         factory.loadPluginsFromFile(os.path.abspath(os.path.join(os.path.dirname( __file__ ),"libsampleplugin.so")))
-    
+        plist = factory.getRegisteredPluginNames();
+        #print plist[0]
     '''
         configDict = mwcore.Configuration.createEmptyDict()
         configDict.insert("test","test value 4321")

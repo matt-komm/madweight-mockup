@@ -17,7 +17,7 @@ class PluginFactory
 		PluginFactory();
     public:
 		static PluginFactory<PRODUCT>* getInstance();
-		std::vector<std::string> getRegisteredPlugins();
+		std::vector<std::string> getRegisteredPluginNames();
         void registerPlugin(const Producer<PRODUCT>* producer);
 		const PRODUCT* createPlugin(std::string name, Configuration conf);
 		void loadPluginsFromFile(std::string file);

@@ -12,10 +12,10 @@ template<class PRODUCT> PluginFactory<PRODUCT>*  PluginFactory<PRODUCT>::getInst
 	return &factory;
 }
 
-template<class PRODUCT> std::vector<std::string> PluginFactory<PRODUCT>::getRegisteredPlugins()
+template<class PRODUCT> std::vector<std::string> PluginFactory<PRODUCT>::getRegisteredPluginNames()
 {
 	std::vector<std::string> list;
-	for ( auto it = _producers.begin(); it!= _producers.end(); ++it )
+	for (auto it = _producers.begin(); it!= _producers.end(); ++it )
 	{
 		list.push_back(it->first);
 	}
