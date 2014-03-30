@@ -11,7 +11,7 @@ class Module:
         Configuration _config;
     public:
         Module(Configuration config);
-        ~Module();
+        virtual ~Module();
 
         virtual void execute() = 0;
 };

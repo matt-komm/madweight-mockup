@@ -5,9 +5,16 @@ Algorithm::Algorithm(Configuration conf):
 {
 }
 
-void Algorithm::addExternalVariable(Variable* var)
+void Algorithm::addGraph(std::string name, Graph& graph)
 {
-	_externalVariables.push_back(var);
+	if (_graphMap.find(name)==_graphMap.end())
+	{
+		_graphMap[name]=&graph;
+	}
+	else
+	{
+		throw std::string("Graph with name '"+name+"' already registered in algorithm.");
+	}
 }
 
 Algorithm::~Algorithm()

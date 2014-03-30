@@ -2,8 +2,6 @@
 #define __NODE_H__
 
 #include "Variable.hpp"
-class Algorithm;
-
 #include <vector>
 
 class Node
@@ -50,8 +48,6 @@ class Node
         {
             return _input[index];
         }
-
-        virtual void passExternalVariables(Algorithm& algo);
 };
 
 

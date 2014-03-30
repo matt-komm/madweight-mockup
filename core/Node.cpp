@@ -2,7 +2,6 @@
 #include "Scalar.hpp"
 #include "NVector.hpp"
 #include "LorentzVector.hpp"
-#include "Algorithm.hpp"
 
 Node::Node()
 {
@@ -20,18 +19,6 @@ Node::~Node()
         delete _output[i];
     }
 
-}
-
-void Node::passExternalVariables(Algorithm& algo)
-{
-	for (unsigned int ivar=0; ivar<_input.size();++ivar)
-	{
-		Variable* var = _input[ivar];
-		if (!var->hasParent())
-		{
-			algo.addExternalVariable(var);
-		}
-	}
 }
 
 template<class VARIABLE> VARIABLE* Node::getOutput(std::string name)

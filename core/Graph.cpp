@@ -172,12 +172,3 @@ std::vector<Node*> Graph::getSortedList()
     return _sortedNodes;
 }
 
-void Graph::passExternalVariables(Algorithm& algo)
-{
-	for (unsigned int ileaf=0; ileaf<_leafs.size(); ++ileaf)
-	{
-		Node* node = _leafs[ileaf]->owner;
-		node->passExternalVariables(algo);
-	}
-}
-

@@ -26,7 +26,7 @@ class TestPlugin:
 			_output->value()=_input->value()*10;
 		}
 
-		~TestPlugin()
+		virtual ~TestPlugin()
 		{
 
 		}

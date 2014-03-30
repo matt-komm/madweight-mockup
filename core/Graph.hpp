@@ -54,7 +54,6 @@ class Graph
         virtual void executeAll();
         virtual void addNode(Node* node);
         virtual void setupGraphConnections();
-        virtual void passExternalVariables(Algorithm& algo);
 };
 
 #endif

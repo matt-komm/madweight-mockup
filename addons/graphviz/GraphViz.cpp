@@ -91,12 +91,12 @@ void GraphViz::addNode(Node* node)
     sprintf(name,"node %u",(unsigned int)_leafs.size());
     leaf->gnode = agnode(g, name);
     strcpy(leaf->name,name);
-    agattr(leaf->gnode,"shape","record");
+    agattr(leaf->gnode,(char*)"shape",(char*)"record");
     std::string slabel=createNodeRepresentation(leaf->owner);
     std::cout<<"name="<<name<<", label="<<slabel<<std::endl;
     char* label = new char[slabel.length()+1];
     sprintf(label,"%s",slabel.c_str());
-    agset(leaf->gnode,"label",label);
+    agset(leaf->gnode,(char*)"label",label);
 
     _leafs.push_back(leaf);
 }
@@ -171,8 +171,8 @@ void GraphViz::render(std::string filename)
 				sprintf(headport,"%s:n",edge->nameOut.c_str());
 				char* tailport = new char[100];
 				sprintf(tailport,"%s:s",edge->nameIn.c_str());
-				agattr(gedge,"headport",headport);
-				agattr(gedge,"tailport",tailport);
+				agattr(gedge,(char*)"headport",headport);
+				agattr(gedge,(char*)"tailport",tailport);
 
             }
         }
