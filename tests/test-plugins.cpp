@@ -6,8 +6,8 @@
 
 TEST(Configuration, list)
 {
-	EXPECT_NO_THROW(PluginFactory<Module>::getInstance()->loadPluginsFromFile("libtestplugin.so"));
-	
+	PluginFactory<Module>* moduleFactory = PluginFactory<Module>::getInstance();
+	EXPECT_NO_THROW(moduleFactory->loadPluginsFromFile("./libsampleplugin.so"));
 	std::vector<std::string> loadedModules=PluginFactory<Module>::getInstance()->getRegisteredPlugins();
 	EXPECT_EQ(loadedModules.size(),(unsigned int)1);
 	EXPECT_EQ(loadedModules[0],"TestPlugin");

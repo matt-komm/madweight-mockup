@@ -34,7 +34,7 @@ class LinuxLibraryLoader:
 				lib_handle = dlopen(file.c_str(), RTLD_LAZY);
 				if (!lib_handle)
 				{
-					throw std::string(dlerror());
+					throw "Error while opening file: '"+file+"': "+std::string(dlerror());
 				}
 				_loadedLibHandles[file]=lib_handle;
 
@@ -43,7 +43,7 @@ class LinuxLibraryLoader:
 				init_function_type fn = smemory.get();
 				if ((error = dlerror()) != NULL)
 				{
-					throw std::string(dlerror());
+					throw "Error while initializing file: '"+file+"': "+std::string(dlerror());
 				}
 				(*fn)();
         	}

@@ -24,33 +24,33 @@ if (ENABLE_TEST)
     target_link_libraries(sampleplugin mw-core mw-plugins)
 
     macro(APPLYGTEST name sourcefile)
-        add_executable(test-${name}
+        add_executable(gtest-${name}
             ${sourcefile}
         )
-        target_link_libraries(test-${name} ${ARGN} pthread gtest gtest_main)
-        add_test(test-${name}-gtest test-${name} --gtest_color=yes)
-        #add_test(test-${name}-memtest valgrind --tool=memcheck --leak-check=summary ${CMAKE_CURRENT_BINARY_DIR}/test-${name} > /dev/null)
-        add_dependencies(build_and_test test-${name})
+        target_link_libraries(gtest-${name} ${ARGN} pthread gtest gtest_main)
+        add_test(${name} gtest-${name} --gtest_color=yes)
+        #add_test(memtest-${name} valgrind --tool=memcheck --leak-check=summary ${CMAKE_CURRENT_BINARY_DIR}/gtest-${name} > /dev/null)
+        add_dependencies(build_and_test gtest-${name})
     endmacro(APPLYGTEST)
     
     ##### GTESTS #####
-    APPLYGTEST(test-core test-core.cpp mw-core)
-    APPLYGTEST(test-plugins test-plugins.cpp mw-core mw-plugins)
+    APPLYGTEST(testcore test-core.cpp mw-core)
+    APPLYGTEST(testplugins test-plugins.cpp mw-core mw-plugins)
     #####
     
     if (ENABLE_SWIG)
         message("enable swig testing")
         find_package(PythonInterp REQUIRED)
         macro(APPLYPYTHONTEST name unittestmodule dependency)
-            add_test(NAME test-${name} COMMAND ${PYTHON_EXECUTABLE} -m unittest -v ${unittestmodule})
-            set_tests_properties(test-${name} PROPERTIES DEPENDS ${dependency})
+            add_test(NAME ${name} COMMAND ${PYTHON_EXECUTABLE} -m unittest -v ${unittestmodule})
+            set_tests_properties(${name} PROPERTIES DEPENDS ${dependency})
             COPY_FILE_IF_CHANGED(${CMAKE_CURRENT_SOURCE_DIR}/${unittestmodule}.py ${CMAKE_CURRENT_BINARY_DIR}/${unittestmodule}.py pretest)           
-            add_dependencies(build_and_test test-${name})
+            add_dependencies(build_and_test ${name})
         endmacro(APPLYPYTHONTEST)
         
         ##### PYTHONTESTS #####
-        APPLYPYTHONTEST(swig-core testpycore mwcore)
-        APPLYPYTHONTEST(swig-plugins testpyplugins mwplugins)
+        APPLYPYTHONTEST(pytestcore testpycore mwcore)
+        APPLYPYTHONTEST(pytestplugins testpyplugins mwplugins)
         #####
         
     endif(ENABLE_SWIG)
