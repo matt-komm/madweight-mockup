@@ -152,6 +152,8 @@
 
 
 %include "Graph.hpp"
+%template(ConstVariableList) std::vector<const Variable*>;
+
 
 %include "Job.hpp"
 %include "JobFactory.hpp"

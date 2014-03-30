@@ -39,3 +39,6 @@ class Test_Configuration(unittest.TestCase):
         
         self.assertEqual(4245124,configList.get(1).value()[0].value())
         self.assertEqual(4245124,configList.get(1).get(0).value())
+        
+        
+        

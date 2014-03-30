@@ -2,7 +2,7 @@
 #define __GRAPH_H__
 
 #include "Node.hpp"
-class Algorithm;
+#include "Variable.hpp"
 
 #include <map>
 #include <string>
@@ -43,8 +43,14 @@ class Graph
 
         std::vector<Leaf*> _leafs;
         std::vector<Node*> _sortedNodes;
+
         virtual void _setupLeaf(Leaf* leaf, Node* node);
         Graph::Leaf* _findLeaf(Node* node);
+
+        std::vector<const Variable*> collectExternals();
+
+        bool _dirty; //new node was added w/o new sorting
+        bool _sorted; //sortedNodes is up to date
 
     public:
         Graph();

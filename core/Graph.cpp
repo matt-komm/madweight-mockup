@@ -1,10 +1,10 @@
 #include "Graph.hpp"
 #include "Algorithm.hpp"
 
-Graph::Graph()
+Graph::Graph():
+	_dirty(true),
+	_sorted(false)
 {
-
-
 }
 
 Graph::~Graph()
@@ -14,6 +14,8 @@ Graph::~Graph()
 
 void Graph::addNode(Node* node)
 {
+	_dirty=true;
+	_sorted=false;
     //std::cout<<"adding node"<<std::endl;
     Leaf* leaf = new Leaf();
     this->_setupLeaf(leaf,node);
@@ -78,6 +80,25 @@ Graph::Leaf* Graph::_findLeaf(Node* node)
     return 0;
 }
 
+std::vector<const Variable*> Graph::collectExternals()
+{
+	//TODO: this function will fill up the external vector
+	//		furthermore, it is yet unclear how algorithms should access various variables within a graph
+	std::vector<const Variable*> externals;
+	for (unsigned int inode = 0; inode < _sortedNodes.size(); ++inode)
+	{
+		for (unsigned int ivar = 0; ivar < _sortedNodes[inode]->getInputSize(); ++ivar)
+		{
+			const Variable* var = _sortedNodes[inode]->getInput(ivar);
+			if (not var->hasParent())
+			{
+				externals.push_back(var);
+			}
+		}
+	}
+	return externals;
+}
+
 void Graph::setupGraphConnections()
 {
 	for (unsigned int ileaf=0; ileaf<_leafs.size();++ileaf)
@@ -94,11 +115,16 @@ void Graph::setupGraphConnections()
 			edge->leaf=this->_findLeaf(edge->target);
 		}
 	}
+	_dirty=false;
+	_sorted=false;
 }
 
 void Graph::sort()
 {
-
+	if (_dirty)
+	{
+		setupGraphConnections();
+	}
     std::vector<Leaf*> sorted;
     std::vector<Leaf*> _noIncommingEdges;
     std::vector<Leaf*> rest;
@@ -153,10 +179,15 @@ void Graph::sort()
     {
         _sortedNodes.push_back(sorted[i]->owner);
     }
+    _sorted=true;
 }
 
 void Graph::executeAll()
 {
+	if (not _sorted)
+	{
+		sort();
+	}
     if (_sortedNodes.size()==_leafs.size())
     {
         for (unsigned int i = 0; i < _sortedNodes.size(); ++i)
