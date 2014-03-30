@@ -1,7 +1,11 @@
 #include "gtest/gtest.h"
 
 #include "Configuration.hpp"
-#include "simple_graph.hpp"
+#include "Scalar.hpp"
+#include "NVector.hpp"
+#include "LorentzVector.hpp"
+#include "Node.hpp"
+#include "Graph.hpp"
 
 TEST(Configuration, list)
 {
@@ -40,7 +44,56 @@ TEST(Configuration, list)
     EXPECT_THROW(conf.get(6).value<Configuration>(),std::string);
 }
 
-TEST(Graph, simple)
+TEST(Variable, NVector)
 {
-    
+	NVector v("test",0,3);
+	v.value(0)=1;
+	v.value(1)=2;
+	v.value(2)=3;
+	EXPECT_EQ(v.size(),(unsigned int)3);
+	EXPECT_EQ(v.value(),(unsigned int)1);
+	EXPECT_EQ(v.value(0),(unsigned int)1);
+	EXPECT_EQ(v.value(1),(unsigned int)2);
+	EXPECT_EQ(v.value(2),(unsigned int)3);
+}
+
+TEST(Node, creating)
+{
+	class TestInputNode:
+	    public Node
+	{
+	    protected:
+	        Scalar* output;
+	        NVector* vectorOutput;
+	        LorentzVector* lvec;
+	    public:
+	        TestInputNode():
+	            Node()
+	        {
+	            output = createVariable<Scalar>("const");
+	            vectorOutput = createVariable<NVector>("vector");
+	            vectorOutput->setSize(3);
+	            lvec= createVariable<LorentzVector>("momenta");
+
+	        }
+	        virtual void execute()
+	        {
+	            output->value()=12345.0;
+	            for (unsigned int i = 0; i<vectorOutput->size();++i)
+	            {
+	                vectorOutput->value(i)=1;
+	            }
+	            lvec->value(0)=100;
+	            lvec->value(1)=-10;
+	            lvec->value(2)=-10;
+	            lvec->value(3)=-10;
+	        }
+	};
+	TestInputNode node;
+	EXPECT_EQ(node.getOutputSize(),(unsigned int)3);
+	node.execute();
+	EXPECT_EQ(node.getOutput(0)->value(),12345.0);
+	EXPECT_EQ(node.getOutput(1)->value(),1.0);
+	EXPECT_EQ(node.getOutput(2)->value(),100.0);
+
 }

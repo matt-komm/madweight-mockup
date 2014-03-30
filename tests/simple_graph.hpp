@@ -25,10 +25,10 @@ class TestInputNode1:
         }
         virtual void execute()
         {
-            output->value()=(rand()%10000)*0.01;
+            output->value()=12345.0;
             for (unsigned int i = 0; i<vectorOutput->size();++i)
             {
-                vectorOutput->value(i)=(rand()%10000)*0.01;
+                vectorOutput->value(i)=i*2+1;
             }
             lvec->value(0)=100;
             lvec->value(1)=-10;
