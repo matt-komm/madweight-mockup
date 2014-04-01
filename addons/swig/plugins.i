@@ -24,15 +24,22 @@
 
 %module(directors="1") mwplugins
 %{
+    #include "Plugin.hpp"
     #include "PluginFactory.hpp"
     #include "Module.hpp"
     #include "Algorithm.hpp"
 %}
 
-
+%include "Plugin.hpp"
 %include "PluginFactory.hpp"
-
 %template(StringList) std::vector<std::string>;
+
+%template(getPluginModule) PluginFactory::getPlugin<Module>;
+%template(getPluginAlgorithm) PluginFactory::getPlugin<Algorithm>;
+
+%template(PluginModule) Plugin<Module>;
+%template(PluginAlgorithm) Plugin<Algorithm>;
+
 %inline
 %{
 %}

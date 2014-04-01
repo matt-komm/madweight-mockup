@@ -6,23 +6,43 @@
 
 #include <vector>
 #include <string>
-#include <typeinfo>
 
-template<class PRODUCT> class Plugin;
+#include <typeinfo>
 
 class AbstractPlugin
 {
 	private:
-		std::string _name;
+		std::string _pluginName;
+		std::string _pluginBaseName;
+		const std::type_info* _pluginType;
+		const std::type_info* _pluginBaseType;
 	public:
-		AbstractPlugin(std::string name):
-		_name(name)
+		AbstractPlugin(std::string pluginName, std::string pluginBaseName, const std::type_info* pluginType, const std::type_info* pluginBaseType):
+			_pluginName(pluginName),
+			_pluginBaseName(pluginBaseName),
+			_pluginType(pluginType),
+			_pluginBaseType(pluginBaseType)
 		{
 		}
 
-		inline std::string getName() const
+		inline std::string getPluginName() const
 		{
-			return _name;
+			return _pluginName;
+		}
+
+		inline std::string getPluginBaseName() const
+		{
+			return _pluginBaseName;
+		}
+
+		inline const std::type_info& getPluginType() const
+		{
+			return *_pluginType;
+		}
+
+		inline const std::type_info& getPluginBaseType() const
+		{
+			return *_pluginBaseType;
 		}
 
 		virtual ~AbstractPlugin()
@@ -31,32 +51,32 @@ class AbstractPlugin
 };
 
 
-template<class PRODUCT>
+template<class BASECLASS>
 class Plugin:
 	public AbstractPlugin
 {
 	public:
-		Plugin<PRODUCT>(std::string name):
-			AbstractPlugin(name)
+		Plugin(std::string pluginName, std::string pluginBaseName, const std::type_info* pluginType):
+			AbstractPlugin(pluginName, pluginBaseName, pluginType, &typeid(BASECLASS))
 		{
 		}
 
-		virtual PRODUCT* create(Configuration& conf) = 0;
+		virtual BASECLASS* create(Configuration& conf) = 0;
 };
 
-template<class PRODUCT, class PLUGINCLASS>
+template<class BASECLASS, class USERCLASS>
 class ConcretePlugin:
-	public Plugin<PRODUCT>
+	public Plugin<BASECLASS>
 {
 	public:
-		ConcretePlugin<PRODUCT, PLUGINCLASS>(std::string name):
-			Plugin<PRODUCT>(name)
+		ConcretePlugin(std::string pluginName, std::string pluginBaseName):
+			Plugin<BASECLASS>(pluginName, pluginBaseName, &typeid(USERCLASS))
 		{
 		}
 
-		virtual PRODUCT* create(Configuration& conf)
+		virtual BASECLASS* create(Configuration& conf)
 		{
-			return new PLUGINCLASS(conf);
+			return new USERCLASS(conf);
 		}
 };
 

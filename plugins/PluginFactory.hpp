@@ -19,8 +19,14 @@ class PluginFactory
 		static PluginFactory* getInstance();
 		std::vector<std::string> getRegisteredPluginNames();
         void registerPlugin(AbstractPlugin* producer);
-        template<class PRODUCT> Plugin<PRODUCT>* getPlugin(std::string name);
+        template<class BASECLASS> Plugin<BASECLASS>* getPlugin(std::string pluginName);
 		void loadPluginsFromFile(std::string file);
+
+		inline bool hasPlugin(std::string name)
+		{
+			return _producers.find(name) != _producers.end();
+		}
+
         ~PluginFactory();
 };
 

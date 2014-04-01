@@ -9,14 +9,16 @@ class Test_PluginFactory(unittest.TestCase):
         pass
 
     def test_load(self):
-        factory = mwplugins.ModuleFactory.getInstance()
+        factory = mwplugins.PluginFactory.getInstance()
         factory.loadPluginsFromFile(os.path.abspath(os.path.join(os.path.dirname( __file__ ),"libsampleplugin.so")))
         plist = factory.getRegisteredPluginNames()
-        self.assertEqual(1, len(plist))
-        self.assertEqual("TestPlugin",plist[0])
-        testPlugin = factory.createPlugin("TestPlugin",mwcore.Configuration.createEmptyDict())
-        print testPlugin
-        
+        self.assertEqual(2, len(plist))
+        self.assertTrue(factory.hasPlugin("TestModule"))
+        self.assertTrue(factory.hasPlugin("TestAlgorithm"))
+        testPlugin = factory.getPluginModule("TestModule")
+        testModule = testPlugin.create(mwcore.Configuration.createEmptyDict())
+        self.assertEqual(1,testModule.getOutputSize())
+        self.assertEqual("out",testModule.getOutput(0).getName())
     '''
     def test_loadAlgorthim(self):
         factory = mwplugins.AlgorithmFactory.getInstance()

@@ -42,10 +42,10 @@ typedef LinuxLibraryLoader LibraryLoader;
 #include <iostream>
 #include <string>
 
-#define REGISTER_PLUGIN(BASECLASS,MODULENAME) \
-	std::cout<<"REGISTER_PLUGIN: "<< #BASECLASS <<","<< #MODULENAME <<std::endl; \
-	static ConcretePlugin<BASECLASS,MODULENAME>  _ ## MODULENAME ## plugin(#MODULENAME); \
-	PluginFactory::getInstance()->registerPlugin(&_ ## MODULENAME ## plugin); \
+#define REGISTER_PLUGIN(BASECLASS,USERCLASS) \
+	/*std::cout<<"REGISTER_PLUGIN: "<< #BASECLASS <<","<< #USERCLASS <<std::endl;*/ \
+	static ConcretePlugin<BASECLASS,USERCLASS>  _ ## BASECLASS ## ## USERCLASS ## plugin(#USERCLASS, #BASECLASS); \
+	PluginFactory::getInstance()->registerPlugin(&_ ## BASECLASS ## ## USERCLASS ## plugin); \
 
 #define INIT(PLUGINS) \
 	extern "C" \

@@ -27,31 +27,31 @@ std::vector<std::string> PluginFactory::getRegisteredPluginNames()
 
 void PluginFactory::registerPlugin(AbstractPlugin* producer)
 {
-	if (_producers.find(producer->getName())==_producers.end())
+	if (_producers.find(producer->getPluginName())==_producers.end())
 	{
-		_producers[producer->getName()]=producer;
+		_producers[producer->getPluginName()]=producer;
 	}
 	else
 	{
-		throw std::string("plugin with name '"+producer->getName()+"' already loaded");
+		throw std::string("plugin with name '"+producer->getPluginName()+"' already loaded");
 	}
 }
 
-template<class PRODUCT>
-Plugin<PRODUCT>* PluginFactory::getPlugin(std::string name)
+template<class BASECLASS>
+Plugin<BASECLASS>* PluginFactory::getPlugin(std::string pluginName)
 {
-	if (_producers.find(name)!=_producers.end())
+	if (_producers.find(pluginName)!=_producers.end())
 	{
-		Plugin<PRODUCT>* plugin = dynamic_cast<Plugin<PRODUCT>*>(_producers[name]);
+		Plugin<BASECLASS>* plugin = dynamic_cast<Plugin<BASECLASS>*>(_producers[pluginName]);
 		if (!plugin)
 		{
-			throw std::string("plugin with name '"+name+"' is not casted to the its correct type");
+			throw std::string("plugin with name '"+pluginName+"' is of type '"+_producers[pluginName]->getPluginBaseName()+"'");
 		}
 		return plugin;
 	}
 	else
 	{
-		throw std::string("plugin with name '"+name+"' not found");
+		throw std::string("plugin with name '"+pluginName+"' not found");
 	}
 }
 template Plugin<Module>* PluginFactory::getPlugin<Module>(std::string name);
