@@ -20,7 +20,7 @@ NVector::~NVector()
     delete _values;
 }
 
-Variable* NVector::clone(Node* owner)
+Variable* NVector::clone(Node* owner) const
 {
     NVector* clone = new NVector(_name,owner);
     clone->setSize(this->size());

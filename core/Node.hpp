@@ -50,6 +50,22 @@ class Node
         }
 };
 
+class ConstantNode:
+	public Node
+{
+
+	public:
+		ConstantNode():
+			Node()
+		{
+		}
+
+		virtual void execute()
+		{
+		}
+};
+
+//TODO: do not forget to write AddNode ;-)
 
 class MultiplyNode:
     public Node
@@ -120,20 +136,6 @@ class MultiplyNode:
         }
 };
 
-/*
-class AddNode:
-    public Node
-{
-    protected:
-        Addable* _addable;
-        Variable* _variable;
-        Variable* _result;
-    public:
-        AddNode(Variable* var1, Variable* var2);
-        virtual ~AddNode();
-        virtual void execute();
 
-};
-*/
 #endif
 

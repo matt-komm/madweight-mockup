@@ -157,6 +157,7 @@
 
 %include "Job.hpp"
 %include "JobFactory.hpp"
+
 %include "Algorithm.hpp"
 
 %include "Node.hpp"

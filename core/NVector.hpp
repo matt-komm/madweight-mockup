@@ -17,7 +17,7 @@ class NVector:
         NVector(std::string name, Node* owner, unsigned int size=1);
         virtual ~NVector();
 
-        virtual Variable* clone(Node* owner);
+        virtual Variable* clone(Node* owner) const;
 
         virtual void setSize(unsigned int size);
         virtual unsigned int size() const;

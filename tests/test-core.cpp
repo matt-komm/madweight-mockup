@@ -44,6 +44,20 @@ TEST(Configuration, list)
     EXPECT_THROW(conf.get(6).value<Configuration>(),std::string);
 }
 
+TEST(Variable, Scalar)
+{
+	Scalar s("test",0);
+	s.value()=5.0;
+	EXPECT_EQ(s.value(),5.0);
+	Variable* s2 = s.clone(0);
+	EXPECT_EQ(s2->value(),5.0);
+	s2->value()=4.0;
+	EXPECT_EQ(s.value(),5.0);
+	s.value()=3.0;
+	EXPECT_EQ(s2->value(),4.0);
+	delete s2;
+}
+
 TEST(Variable, NVector)
 {
 	NVector v("test",0,3);

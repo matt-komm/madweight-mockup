@@ -2,7 +2,7 @@
 #define __ALGORITHM_H__
 
 #include "Node.hpp"
-#include "Variable.hpp"
+
 #include "Job.hpp"
 #include "Configuration.hpp"
 #include "Graph.hpp"
@@ -13,10 +13,16 @@ class Algorithm:
     public Job
 {
     protected:
-		std::map<std::string,Graph*> _graphMap;
+		Graph* _graph;
+		ConstantNode* _node;
     public:
         Algorithm(Configuration conf);
-        void addGraph(std::string name, Graph& graph);
+        virtual void execute();
+        inline Node* getNode()
+        {
+        	return _node;
+        }
+        void setGraph(Graph& graph);
         virtual ~Algorithm();
 };
 

@@ -28,7 +28,7 @@ class Variable
         Variable(std::string name, Node* owner);
         virtual ~Variable();
 
-        virtual Variable* clone(Node* owner) = 0;
+        virtual Variable* clone(Node* owner) const = 0;
 
         virtual void setSize(unsigned int size) = 0;
         virtual unsigned int size() const = 0;

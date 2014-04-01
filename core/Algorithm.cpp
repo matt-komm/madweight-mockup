@@ -1,23 +1,34 @@
 #include "Algorithm.hpp"
 
+#include "Variable.hpp"
+
 Algorithm::Algorithm(Configuration conf):
-    Job(conf)
+    Job(conf),
+    _graph(0),
+    _node(0)
 {
 }
 
-void Algorithm::addGraph(std::string name, Graph& graph)
+void Algorithm::setGraph(Graph& graph)
 {
-	if (_graphMap.find(name)==_graphMap.end())
+	if (_node)
 	{
-		_graphMap[name]=&graph;
+		delete _node;
 	}
-	else
-	{
-		throw std::string("Graph with name '"+name+"' already registered in algorithm.");
-	}
+	_node = new ConstantNode();
+	_graph=&graph;
+	_graph->createExternals(_node);
+}
+
+void Algorithm::execute()
+{
 }
 
 Algorithm::~Algorithm()
 {
+	if (_node)
+	{
+		delete _node;
+	}
 }
 

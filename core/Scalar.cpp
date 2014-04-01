@@ -13,7 +13,7 @@ Scalar::~Scalar()
     delete _value;
 }
 
-Variable* Scalar::clone(Node* owner)
+Variable* Scalar::clone(Node* owner) const
 {
     Scalar* scalar = new Scalar(_name,owner);
     scalar->value()=this->value();

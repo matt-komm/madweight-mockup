@@ -47,7 +47,7 @@ class Graph
         virtual void _setupLeaf(Leaf* leaf, Node* node);
         Graph::Leaf* _findLeaf(Node* node);
 
-        std::vector<const Variable*> collectExternals();
+
 
         bool _dirty; //new node was added w/o new sorting
         bool _sorted; //sortedNodes is up to date
@@ -60,6 +60,7 @@ class Graph
         virtual void executeAll();
         virtual void addNode(Node* node);
         virtual void setupGraphConnections();
+        void createExternals(Node* node);
 };
 
 #endif

@@ -16,7 +16,7 @@ class LorentzVector:
         LorentzVector(std::string name, Node* owner);
         virtual ~LorentzVector();
 
-        virtual Variable* clone(Node* owner);
+        virtual Variable* clone(Node* owner) const;
 
 
         virtual OpVariableInterface* createMultiplication(std::string name, Node* owner, const Variable* variable) const;

@@ -1,18 +1,21 @@
 #include "PluginFactory.hpp"
 
-template<class PRODUCT> PluginFactory<PRODUCT>::PluginFactory():
+#include "Module.hpp"
+#include "Algorithm.hpp"
+
+PluginFactory::PluginFactory():
 	_libLoader()
 {
 
 }
 
-template<class PRODUCT> PluginFactory<PRODUCT>*  PluginFactory<PRODUCT>::getInstance()
+PluginFactory*  PluginFactory::getInstance()
 {
-	static PluginFactory<PRODUCT> factory;
+	static PluginFactory factory;
 	return &factory;
 }
 
-template<class PRODUCT> std::vector<std::string> PluginFactory<PRODUCT>::getRegisteredPluginNames()
+std::vector<std::string> PluginFactory::getRegisteredPluginNames()
 {
 	std::vector<std::string> list;
 	for (auto it = _producers.begin(); it!= _producers.end(); ++it )
@@ -22,7 +25,7 @@ template<class PRODUCT> std::vector<std::string> PluginFactory<PRODUCT>::getRegi
 	return list;
 }
 
-template<class PRODUCT> void PluginFactory<PRODUCT>::registerPlugin(const Producer<PRODUCT>* producer)
+void PluginFactory::registerPlugin(AbstractPlugin* producer)
 {
 	if (_producers.find(producer->getName())==_producers.end())
 	{
@@ -34,27 +37,32 @@ template<class PRODUCT> void PluginFactory<PRODUCT>::registerPlugin(const Produc
 	}
 }
 
-template<class PRODUCT> const PRODUCT* PluginFactory<PRODUCT>::createPlugin(std::string name, Configuration conf)
+template<class PRODUCT>
+Plugin<PRODUCT>* PluginFactory::getPlugin(std::string name)
 {
 	if (_producers.find(name)!=_producers.end())
 	{
-		const Producer<PRODUCT>* producer = _producers[name];
-		return producer->create(conf);
+		Plugin<PRODUCT>* plugin = dynamic_cast<Plugin<PRODUCT>*>(_producers[name]);
+		if (!plugin)
+		{
+			throw std::string("plugin with name '"+name+"' is not casted to the its correct type");
+		}
+		return plugin;
 	}
 	else
 	{
 		throw std::string("plugin with name '"+name+"' not found");
 	}
 }
+template Plugin<Module>* PluginFactory::getPlugin<Module>(std::string name);
+template Plugin<Algorithm>* PluginFactory::getPlugin<Algorithm>(std::string name);
 
-template<class PRODUCT> void PluginFactory<PRODUCT>::loadPluginsFromFile(std::string file)
+void PluginFactory::loadPluginsFromFile(std::string file)
 {
 	_libLoader.loadLibrary(file);
 }
 
-template<class PRODUCT> PluginFactory<PRODUCT>::~PluginFactory()
+PluginFactory::~PluginFactory()
 {
 }
 
-template class Producer<Module>;
-template class PluginFactory<Module>;

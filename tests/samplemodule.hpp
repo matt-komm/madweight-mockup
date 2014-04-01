@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-class TestPlugin:
+class TestModule:
 	public Module
 {
 
@@ -14,7 +14,7 @@ class TestPlugin:
 		Scalar* _output;
 		const Scalar* _input;
 	public:
-		TestPlugin(Configuration conf):
+		TestModule(Configuration conf):
 			Module(conf)
 		{
 			_output=createVariable<Scalar>("out");
@@ -26,12 +26,10 @@ class TestPlugin:
 			_output->value()=_input->value()*10;
 		}
 
-		virtual ~TestPlugin()
+		virtual ~TestModule()
 		{
 
 		}
 };
 
-INIT(
-	REGISTER_PLUGIN(Module,TestPlugin)
-)
+

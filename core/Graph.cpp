@@ -80,11 +80,8 @@ Graph::Leaf* Graph::_findLeaf(Node* node)
     return 0;
 }
 
-std::vector<const Variable*> Graph::collectExternals()
+void Graph::createExternals(Node* node)
 {
-	//TODO: this function will fill up the external vector
-	//		furthermore, it is yet unclear how algorithms should access various variables within a graph
-	std::vector<const Variable*> externals;
 	for (unsigned int inode = 0; inode < _sortedNodes.size(); ++inode)
 	{
 		for (unsigned int ivar = 0; ivar < _sortedNodes[inode]->getInputSize(); ++ivar)
@@ -92,11 +89,11 @@ std::vector<const Variable*> Graph::collectExternals()
 			const Variable* var = _sortedNodes[inode]->getInput(ivar);
 			if (not var->hasParent())
 			{
-				externals.push_back(var);
+				Variable* input = var->clone(node);
+				_sortedNodes[inode]->connectInput(var,input);
 			}
 		}
 	}
-	return externals;
 }
 
 void Graph::setupGraphConnections()

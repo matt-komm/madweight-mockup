@@ -16,4 +16,14 @@ class Test_PluginFactory(unittest.TestCase):
         self.assertEqual("TestPlugin",plist[0])
         testPlugin = factory.createPlugin("TestPlugin",mwcore.Configuration.createEmptyDict())
         print testPlugin
-    
+        
+    '''
+    def test_loadAlgorthim(self):
+        factory = mwplugins.AlgorithmFactory.getInstance()
+        factory.loadPluginsFromFile(os.path.abspath(os.path.join(os.path.dirname( __file__ ),"libsamplealgorithm.so")))
+        plist = factory.getRegisteredPluginNames()
+        self.assertEqual(1, len(plist))
+        self.assertEqual("TestAlgoritm",plist[0])
+        testPlugin = factory.createPlugin("TestAlgoritm",mwcore.Configuration.createEmptyDict())
+        print testPlugin
+    '''

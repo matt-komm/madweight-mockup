@@ -8,53 +8,56 @@
 #include <string>
 #include <typeinfo>
 
-template<class PRODUCT>
-class Producer
-{
-    public:
-		Producer()
-        {
-        }
-        
-        virtual ~Producer()
-        {
-        }
-        
-        virtual std::string getPluginBaseName()
-        {
-            return "Module";
-        }
-        
-        virtual PRODUCT* create(Configuration conf) const =0;
+template<class PRODUCT> class Plugin;
 
-        virtual std::string getName() const =0;
+class AbstractPlugin
+{
+	private:
+		std::string _name;
+	public:
+		AbstractPlugin(std::string name):
+		_name(name)
+		{
+		}
+
+		inline std::string getName() const
+		{
+			return _name;
+		}
+
+		virtual ~AbstractPlugin()
+		{
+		}
 };
 
-template<class PLUGINCLASS>
-class ModuleProducer:
-	public Producer<Module>
+
+template<class PRODUCT>
+class Plugin:
+	public AbstractPlugin
 {
-	protected:
-		const std::string _pluginName;
-    public:
-		ModuleProducer(std::string pluginName):
-			_pluginName(pluginName)
-        {
-        }
+	public:
+		Plugin<PRODUCT>(std::string name):
+			AbstractPlugin(name)
+		{
+		}
 
-        virtual ~ModuleProducer()
-        {
-        }
+		virtual PRODUCT* create(Configuration& conf) = 0;
+};
 
-        virtual Module* create(Configuration conf) const
-        {
-        	return new PLUGINCLASS(conf);
-        }
+template<class PRODUCT, class PLUGINCLASS>
+class ConcretePlugin:
+	public Plugin<PRODUCT>
+{
+	public:
+		ConcretePlugin<PRODUCT, PLUGINCLASS>(std::string name):
+			Plugin<PRODUCT>(name)
+		{
+		}
 
-        virtual std::string getName() const
-        {
-        	return _pluginName;
-        }
+		virtual PRODUCT* create(Configuration& conf)
+		{
+			return new PLUGINCLASS(conf);
+		}
 };
 
 #endif

@@ -4,22 +4,22 @@
 #include "Plugin.hpp"
 #include "LibraryLoader.hpp"
 
+
 #include <vector>
 #include <map>
 #include <string>
 
-template<class PRODUCT>
 class PluginFactory
 {
 	protected:
-		std::map<std::string, const Producer<PRODUCT>*> _producers;
+		std::map<std::string, AbstractPlugin*> _producers;
 		LibraryLoader _libLoader;
 		PluginFactory();
     public:
-		static PluginFactory<PRODUCT>* getInstance();
+		static PluginFactory* getInstance();
 		std::vector<std::string> getRegisteredPluginNames();
-        void registerPlugin(const Producer<PRODUCT>* producer);
-		const PRODUCT* createPlugin(std::string name, Configuration conf);
+        void registerPlugin(AbstractPlugin* producer);
+        template<class PRODUCT> Plugin<PRODUCT>* getPlugin(std::string name);
 		void loadPluginsFromFile(std::string file);
         ~PluginFactory();
 };

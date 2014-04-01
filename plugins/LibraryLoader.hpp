@@ -44,8 +44,8 @@ typedef LinuxLibraryLoader LibraryLoader;
 
 #define REGISTER_PLUGIN(BASECLASS,MODULENAME) \
 	std::cout<<"REGISTER_PLUGIN: "<< #BASECLASS <<","<< #MODULENAME <<std::endl; \
-	static ModuleProducer<MODULENAME>  _ ## MODULENAME ## plugin(#MODULENAME); \
-	PluginFactory<BASECLASS>::getInstance()->registerPlugin(&_ ## MODULENAME ## plugin); \
+	static ConcretePlugin<BASECLASS,MODULENAME>  _ ## MODULENAME ## plugin(#MODULENAME); \
+	PluginFactory::getInstance()->registerPlugin(&_ ## MODULENAME ## plugin); \
 
 #define INIT(PLUGINS) \
 	extern "C" \

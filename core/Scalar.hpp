@@ -15,7 +15,7 @@ class Scalar:
         Scalar(std::string name, Node* owner);
         virtual ~Scalar();
 
-        virtual Variable* clone(Node* owner);
+        virtual Variable* clone(Node* owner) const;
 
         virtual void setSize(unsigned int size);
         virtual unsigned int size() const;

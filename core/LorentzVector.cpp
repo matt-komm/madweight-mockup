@@ -16,7 +16,7 @@ LorentzVector::~LorentzVector()
     //delete _value;
 }
 
-Variable* LorentzVector::clone(Node* owner)
+Variable* LorentzVector::clone(Node* owner) const
 {
 	LorentzVector* lorentzVector = new LorentzVector(_name,owner);
 	lorentzVector->value(0)=this->value(0);
